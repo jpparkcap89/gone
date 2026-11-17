@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>G-ONE 쉽게 배우기 · 교사 업무 효율화 지원단</title>
+<meta name="description" content="G-ONE 일정·브리티 메신저를 2분 영상과 PDF 안내서로 쉽게 배우는 선생님 자료실">
+<meta property="og:title" content="G-ONE 쉽게 배우기">
+<meta property="og:description" content="2분 영상과 PDF 안내서로 G-ONE·브리티 메신저를 쉽게 시작하세요.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+/* ===== cap89 style tokens ===== */
+:root{
+  --ink:#24324a; --muted:#667085; --primary:#3b63f6; --primary-hover:#254ed8;
+  --sky:#38bdf8; --accent:#ffcf70; --secondary:#7fd8c9; --pink:#ff9fb5; --white:#fff;
+  --panel:rgba(255,255,255,.72); --panel-line:rgba(255,255,255,.95); --hairline:rgba(36,50,74,.07);
+  --shadow:0 20px 60px rgba(67,89,146,.16); --shadow-sm:0 8px 24px rgba(50,68,110,.08);
+  --r-xl:34px; --r-lg:26px; --r-md:16px; --r-sm:14px; --r-pill:999px;
+  --font:"Pretendard Variable",Pretendard,"Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;
+  /* Lucian UX/UI token mapping (cap89-style §6) */
+  --ux-page:#f8fbff; --ux-surface:#ffffff; --ux-surface-2:#f4f7ff; --ux-surface-3:#e8eefc;
+  --ux-ink:#24324a; --ux-ink-2:#667085; --ux-ink-3:#98a2b3;
+  --ux-line:rgba(36,50,74,.07); --ux-line-2:rgba(36,50,74,.15);
+  --ux-accent:#3b63f6; --ux-accent-2:#38bdf8; --ux-accent-soft:rgba(59,99,246,.12); --ux-accent-ink:#ffffff;
+  --ux-mint:#2bb39a; --ux-warn:#f59e0b; --ux-danger:#e5486b;
+  --ux-glass:rgba(255,255,255,.72); --ux-glass-line:rgba(255,255,255,.95);
+  --ux-shadow:rgba(67,89,146,.16); --ux-shadow-strong:rgba(67,89,146,.32);
+  --ux-grad:linear-gradient(100deg,#3b63f6 0%,#38bdf8 52%,#f59e0b 100%);
+  --ux-ease:cubic-bezier(.2,.8,.2,1); --ux-spring:cubic-bezier(.34,1.45,.64,1);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; font-family:var(--font); color:var(--ink); font-size:16px; line-height:1.7; word-break:keep-all;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255,207,112,.45), transparent 28%),
+    radial-gradient(circle at 88% 14%, rgba(127,216,201,.45), transparent 30%),
+    radial-gradient(circle at 75% 82%, rgba(255,159,181,.28), transparent 28%),
+    linear-gradient(135deg,#f8fbff 0%,#fffdf7 45%,#f8fffc 100%);
+  background-attachment:fixed;
+}
+a{color:var(--primary)}
+img{max-width:100%}
+.wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* Lucian base rules */
+.ux,.ux *,.ux *::before,.ux *::after{box-sizing:border-box}
+.ux{font-family:var(--font);color:var(--ux-ink);-webkit-font-smoothing:antialiased;letter-spacing:-.01em;-webkit-tap-highlight-color:transparent;word-break:keep-all;overflow-wrap:break-word}
+:where(.ux) :is(button,input,textarea,select){font:inherit;color:inherit}
+:where(.ux) button{cursor:pointer}
+.ux :focus-visible{outline:2px solid var(--ux-accent);outline-offset:3px}
+.ux [hidden]{display:none!important}
+
+/* blobs */
+.blob{position:fixed;z-index:-1;border-radius:50%;filter:blur(60px);opacity:.55;animation:float 8s ease-in-out infinite}
+.blob.a{width:280px;height:280px;background:var(--accent);top:8%;left:-80px}
+.blob.b{width:320px;height:320px;background:var(--secondary);top:30%;right:-120px;animation-duration:9s}
+.blob.c{width:260px;height:260px;background:var(--pink);bottom:-60px;left:35%;animation-duration:7s}
+@keyframes float{50%{transform:translate(10px,-18px)}}
+@keyframes pageIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* header */
+header{position:sticky;top:0;z-index:40;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(248,251,255,.6);border-bottom:1px solid var(--hairline)}
+.nav{display:flex;align-items:center;gap:20px;height:68px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-weight:800;letter-spacing:-.02em}
+.mark{width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,#3b63f6,#8e9cff);color:#fff;font-size:17px;font-weight:800;box-shadow:0 10px 25px rgba(59,99,246,.28)}
+.brand small{display:block;font-size:11.5px;font-weight:600;color:var(--muted);margin-top:-3px}
+.nav nav{margin-left:auto;display:flex;gap:22px}
+.nav nav a{font-size:15px;font-weight:650;color:var(--ink);text-decoration:none;position:relative;padding:4px 0}
+.nav nav a.on{color:var(--primary)}
+.nav nav a.on::after{content:"";position:absolute;left:0;right:55%;bottom:-2px;height:2px;border-radius:2px;background:var(--primary)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;height:48px;padding:0 22px;border-radius:var(--r-pill);border:0;font:inherit;font-size:15px;font-weight:650;text-decoration:none;cursor:pointer;transition:transform .2s,background .2s,box-shadow .2s}
+.btn.p{background:var(--primary);color:#fff;box-shadow:0 12px 26px -10px rgba(59,99,246,.6)}
+.btn.p:hover{background:var(--primary-hover);transform:translateY(-2px)}
+.btn.s{background:rgba(255,255,255,.78);color:var(--primary);border:1px solid rgba(59,99,246,.14);box-shadow:var(--shadow-sm);backdrop-filter:blur(10px)}
+.btn.s:hover{transform:translateY(-2px)}
+.btn:focus-visible{outline:2px solid var(--primary);outline-offset:3px}
+
+/* hero */
+.hero{padding:56px 0 40px;display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:center;animation:pageIn .5s ease both}
+.eyebrow{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:10px 15px;background:rgba(255,255,255,.78);backdrop-filter:blur(10px);border:1px solid rgba(59,99,246,.14);color:var(--primary);font-size:14px;font-weight:750;box-shadow:var(--shadow-sm)}
+h1{font-size:44px;font-weight:850;letter-spacing:-.028em;line-height:1.25;margin:20px 0 14px}
+.grad{background:linear-gradient(100deg,#3b63f6 0%,#38bdf8 52%,#f59e0b 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lead{font-size:17px;color:#475467;margin:0 0 24px;max-width:520px}
+.cta{display:flex;gap:10px;flex-wrap:wrap}
+.stats{display:flex;gap:10px;margin-top:26px;flex-wrap:wrap}
+.stat{background:rgba(255,255,255,.78);border:1px solid var(--hairline);border-radius:var(--r-md);padding:10px 16px;min-width:110px;transition:.2s}
+.stat:hover{transform:translateY(-3px)}
+.stat b{display:block;font-size:22px;font-weight:850;letter-spacing:-.02em;color:var(--ink);font-variant-numeric:tabular-nums}
+.stat span{font-size:13px;color:var(--muted)}
+.glass{background:var(--panel);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--panel-line);border-radius:var(--r-xl);box-shadow:var(--shadow)}
+.pick{padding:22px}
+.pick .lab{font-size:12.5px;font-weight:800;letter-spacing:.08em;color:var(--primary)}
+.pick h3{font-size:21px;margin:6px 0 4px;letter-spacing:-.02em}
+.pick p{margin:0 0 14px;color:var(--muted);font-size:14.5px}
+.poster{position:relative;aspect-ratio:16/9;border-radius:20px;overflow:hidden;background:linear-gradient(135deg,#0f766e,#3b63f6 60%,#8e9cff);display:grid;place-items:center;cursor:pointer;border:0;width:100%;padding:0}
+.poster .play{width:68px;height:68px;border-radius:50%;background:rgba(255,255,255,.9);display:grid;place-items:center;box-shadow:0 14px 30px rgba(0,0,0,.2);transition:transform .3s var(--ux-spring)}
+.poster:hover .play{transform:scale(1.08)}
+.poster .play::after{content:"";margin-left:5px;border-left:20px solid var(--primary);border-top:13px solid transparent;border-bottom:13px solid transparent}
+.poster .ttl{position:absolute;left:16px;top:14px;color:#fff;font-weight:800;font-size:15px;text-shadow:0 2px 8px rgba(0,0,0,.25)}
+.poster .dur{position:absolute;right:12px;bottom:12px;background:rgba(0,0,0,.55);color:#fff;font-size:12.5px;font-weight:700;padding:3px 9px;border-radius:8px}
+.steps3{display:flex;gap:8px;margin-top:14px}
+.steps3 div{flex:1;background:rgba(255,255,255,.78);border:1px solid var(--hairline);border-radius:var(--r-sm);padding:9px 10px;font-size:13px;color:var(--muted)}
+.steps3 b{display:block;color:var(--ink);font-size:13.5px}
+
+/* sections */
+section.blk{padding:52px 0 40px}
+.sh .eb{font-size:13px;font-weight:800;letter-spacing:.12em;color:var(--primary)}
+.sh h2{font-size:28px;font-weight:850;letter-spacing:-.028em;margin:4px 0 6px}
+.sh p{color:var(--muted);margin:0 0 22px}
+.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.feat{padding:22px;border-radius:var(--r-lg)}
+.feat .em{font-size:34px}
+.feat h3{font-size:19px;margin:6px 0 4px}
+.feat p{margin:0;color:var(--muted);font-size:15px}
+
+/* library toolbar */
+.tool{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:18px}
+.search{flex:1;min-width:240px;position:relative}
+.search input{width:100%;height:50px;border-radius:999px;border:1px solid rgba(59,99,246,.14);background:rgba(255,255,255,.85);padding:0 18px 0 46px;font:inherit;font-size:15px;color:var(--ink);box-shadow:var(--shadow-sm);transition:box-shadow .2s,border-color .2s}
+.search input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 4px rgba(59,99,246,.14)}
+.search svg{position:absolute;left:17px;top:50%;width:18px;height:18px;transform:translateY(-50%);stroke:var(--muted);fill:none;stroke-width:2.2;stroke-linecap:round}
+.tabscroll{max-width:100%;overflow-x:auto;scrollbar-width:none;padding:2px}
+.tabscroll::-webkit-scrollbar{display:none}
+
+/* ===== Lucian #039 미끄러지는 알약 탭 (ported: tabs only, fluid width) ===== */
+.u039{position:relative;width:max-content;max-width:none}
+.u039-tabs{position:relative;display:flex;padding:5px;border-radius:999px;background:var(--ux-surface);box-shadow:0 0 0 1px var(--ux-line)}
+.u039-pill{position:absolute;left:0;top:5px;bottom:5px;width:var(--w,80px);border-radius:999px;background:var(--ux-ink);transform:translateX(var(--x,5px));box-shadow:0 8px 16px -10px var(--ux-shadow-strong);transition:transform .5s var(--ux-spring),width .5s var(--ux-spring)}
+.u039-tab{position:relative;flex:1;height:42px;border:0;padding:0 16px;border-radius:999px;background:none;font-size:14px;font-weight:680;color:var(--ux-ink-2);white-space:nowrap;transition:color .35s var(--ux-ease)}
+.u039-tab[aria-selected="true"]{color:var(--ux-page)}
+.u039-tab:focus-visible{outline:2px solid var(--ux-accent);outline-offset:2px}
+.u039-tab em{font-style:normal;font-size:11.5px;font-weight:800;opacity:.6;margin-left:4px}
+
+/* cards */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{display:flex;flex-direction:column;background:rgba(255,255,255,.82);border:1px solid var(--panel-line);border-radius:var(--r-lg);box-shadow:var(--shadow-sm);overflow:hidden;transition:transform .35s var(--ux-spring),box-shadow .3s;animation:pageIn .45s ease both}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.thumb{position:relative;aspect-ratio:16/9;background:var(--g,linear-gradient(135deg,#3b63f6,#8e9cff));display:grid;place-items:center;border:0;padding:0;cursor:pointer;width:100%}
+.thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.thumb .ic{font-size:42px;filter:drop-shadow(0 6px 14px rgba(0,0,0,.18))}
+.thumb .dur{position:absolute;right:10px;bottom:10px;background:rgba(0,0,0,.55);color:#fff;font-size:12px;font-weight:700;padding:2px 8px;border-radius:7px}
+.thumb .ep{position:absolute;left:10px;top:10px;background:rgba(255,255,255,.9);color:var(--ink);font-size:12px;font-weight:800;padding:3px 9px;border-radius:999px}
+.cbody{padding:16px 18px 18px;display:flex;flex-direction:column;flex:1}
+.tags{display:flex;gap:6px;margin-bottom:6px}
+.tag{font-size:11.5px;font-weight:800;padding:2px 8px;border-radius:7px;background:var(--ux-accent-soft);color:var(--primary)}
+.tag.pdf{background:rgba(229,72,107,.12);color:#c03256}
+.tag.new{background:rgba(245,158,11,.16);color:#b45309}
+.card h3{font-size:17px;margin:0 0 4px;letter-spacing:-.02em;line-height:1.4}
+.card p{font-size:14px;color:var(--muted);margin:0 0 12px;flex:1}
+.cfoot{display:flex;align-items:center;gap:8px}
+.cfoot .views{font-size:12.5px;color:var(--ux-ink-3);margin-right:auto;font-variant-numeric:tabular-nums}
+.mini{height:36px;padding:0 13px;border-radius:12px;border:0;font:inherit;font-size:13px;font-weight:700;cursor:pointer;background:var(--ux-surface-2);color:var(--ink);transition:transform .2s}
+.mini.go{background:var(--primary);color:#fff}
+.mini:hover{transform:translateY(-1px)}
+.mini:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.empty{grid-column:1/-1;text-align:center;padding:48px 20px;color:var(--muted)}
+.empty .em{font-size:40px}
+.skel{border-radius:var(--r-lg);aspect-ratio:4/3.4;background:linear-gradient(90deg,rgba(255,255,255,.6) 25%,rgba(255,255,255,.95) 50%,rgba(255,255,255,.6) 75%);background-size:200% 100%;animation:sh 1.2s linear infinite}
+@keyframes sh{to{background-position:-200% 0}}
+.demo{display:none;margin-bottom:14px;font-size:13.5px;color:#92400e;background:rgba(255,207,112,.35);border:1px solid rgba(245,158,11,.35);padding:8px 14px;border-radius:12px}
+
+/* ===== Lucian #044 자주 묻는 질문 아코디언 (ported: fluid width/height) ===== */
+.u044{position:relative;width:100%;display:flex;flex-direction:column;gap:8px}
+.u044-it{position:relative;border-radius:20px;background:var(--ux-surface);box-shadow:0 0 0 1px var(--ux-line);transition:background-color .4s var(--ux-ease),box-shadow .5s var(--ux-ease),transform .5s var(--ux-spring)}
+.u044-it.open{box-shadow:0 0 0 1px var(--ux-line-2),0 22px 40px -22px var(--ux-shadow-strong);transform:translateY(-2px)}
+.u044-q{position:relative;display:flex;align-items:center;gap:12px;width:100%;min-height:58px;padding:0 14px 0 16px;border:0;border-radius:20px;background:none;font-size:14.5px;font-weight:680;letter-spacing:-.02em;color:var(--ux-ink);text-align:left}
+.u044-q:focus-visible{outline:2px solid var(--ux-accent);outline-offset:2px}
+.u044-n{font-size:12px;font-weight:800;color:var(--ux-ink-3);font-variant-numeric:tabular-nums;transition:color .3s}
+.u044-it.open .u044-n{color:var(--ux-accent)}
+.u044-t{flex:1}
+.u044-pm{position:relative;width:30px;height:30px;flex:none;border-radius:50%;background:var(--ux-surface-2);box-shadow:none;transition:background-color .35s var(--ux-ease),box-shadow .35s,transform .45s var(--ux-spring)}
+.u044-q:hover .u044-pm{transform:scale(1.1)}
+.u044-q:active .u044-pm{transform:scale(.9)}
+.u044-pm::before,.u044-pm::after{content:"";position:absolute;left:50%;top:50%;width:11px;height:2px;margin:-1px 0 0 -5.5px;border-radius:2px;background:var(--ux-ink);transition:transform .5s var(--ux-spring),background-color .3s}
+.u044-pm::after{transform:rotate(90deg)}
+.u044-it.open .u044-pm{background:var(--ux-ink);box-shadow:none}
+.u044-it.open .u044-pm::before,.u044-it.open .u044-pm::after{background:var(--ux-page)}
+.u044-it.open .u044-pm::after{transform:rotate(180deg)}
+.u044-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s var(--ux-ease)}
+.u044-it.open .u044-body{grid-template-rows:1fr}
+.u044-body>div{overflow:hidden;min-height:0}
+.u044-a{padding:0 18px 16px 42px;opacity:0;transform:translateY(-8px);transition:opacity .25s var(--ux-ease),transform .45s var(--ux-spring)}
+.u044-it.open .u044-a{opacity:1;transform:none;transition-delay:.12s}
+.u044-a p{margin:0;font-size:13.5px;line-height:1.62;color:var(--ux-ink-2)}
+.u044-a a{display:inline-flex;align-items:center;gap:4px;margin-top:10px;font-size:13px;font-weight:700;color:var(--ux-accent);text-decoration:none}
+.u044-a a:focus-visible{outline:2px solid var(--ux-accent);outline-offset:2px;border-radius:4px}
+.u044-a a i{font-style:normal;transition:transform .3s var(--ux-spring)}
+.u044-a a:hover i{transform:translateX(3px)}
+.faqgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+.help{padding:24px}
+.help h3{margin:0 0 6px;font-size:19px}
+.help p{color:var(--muted);margin:0 0 14px;font-size:15px}
+
+/* ===== 시청관: ON AIR 무대 (율포 RAS Player 콘셉트) ===== */
+:root{--grad:linear-gradient(100deg,#3b63f6 0%,#38bdf8 52%,#f59e0b 100%);--onair:#ef3b5d;--studio:#0d1424}
+@keyframes blink{50%{opacity:.25}}
+.lamp{display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 13px;border-radius:var(--r-pill);background:rgba(36,50,74,.06);color:var(--muted);font-size:12px;font-weight:850;letter-spacing:.12em;transition:background-color .4s,color .4s,box-shadow .4s;margin-left:14px}
+.lamp i{width:8px;height:8px;border-radius:50%;background:#98a2b3;transition:background-color .4s}
+.lamp.on{background:var(--onair);color:#fff;box-shadow:0 0 0 4px rgba(239,59,93,.15),0 10px 24px rgba(239,59,93,.35)}
+.lamp.on i{background:#fff;animation:blink 1.4s ease-in-out infinite}
+.player-layout{display:grid;grid-template-columns:minmax(0,2.1fr) minmax(280px,1fr);gap:18px;align-items:start;margin-bottom:26px}
+.stage{padding:14px;border-radius:var(--r-lg)}
+.player-box{position:relative;aspect-ratio:16/9;overflow:hidden;border-radius:22px;isolation:isolate;background:linear-gradient(125deg,#edf4ff,#f0fdf7);box-shadow:inset 0 0 0 1px rgba(36,50,74,.06);transition:background-color .5s}
+.player-box.doc{aspect-ratio:auto;height:min(78vh,820px)}
+.player-box:fullscreen{border-radius:0}
+.player-box.is-tuning,.player-box.is-live{background:var(--studio)}
+.player-box iframe{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:1;opacity:0;transition:opacity .7s var(--ux-ease)}
+.player-box.is-live iframe{opacity:1}
+.tune-bg{position:absolute;inset:-10%;z-index:2;pointer-events:none;opacity:0;background:var(--thumb,none) center/cover no-repeat,radial-gradient(circle at 20% 30%,rgba(59,99,246,.75),transparent 45%),radial-gradient(circle at 80% 25%,rgba(56,189,248,.6),transparent 45%),radial-gradient(circle at 60% 85%,rgba(245,158,11,.5),transparent 45%),var(--studio);filter:blur(28px) saturate(1.25);transform:scale(1.1);transition:opacity .6s var(--ux-ease),filter .9s var(--ux-ease),transform .9s var(--ux-ease)}
+.player-box.is-tuning .tune-bg{opacity:1}
+.player-box.is-live .tune-bg{opacity:0;filter:blur(4px);transform:scale(1)}
+.tune{position:absolute;inset:0;z-index:3;display:grid;place-content:center;justify-items:center;gap:12px;color:#fff;opacity:0;pointer-events:none;transition:opacity .45s var(--ux-ease)}
+.player-box.is-tuning .tune{opacity:1}
+.tune-meta{display:flex;align-items:baseline;gap:8px;font-size:13px;font-weight:700;color:rgba(255,255,255,.75)}
+.tune-meta b{font-size:22px;font-weight:850;color:#fff;font-variant-numeric:tabular-nums;min-width:2.2ch;text-align:right}
+.tune-bar{width:min(260px,60%);height:3px;border-radius:3px;background:rgba(255,255,255,.18);overflow:hidden}
+.tune-bar i{display:block;height:100%;width:var(--p,0%);background:var(--grad)}
+.onair{position:relative;display:inline-block;font-weight:900;letter-spacing:-.045em;line-height:1;white-space:nowrap}
+.onair .base{color:transparent;-webkit-text-stroke:1.5px var(--stroke,rgba(59,99,246,.3))}
+.onair .fill{position:absolute;inset:0;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;clip-path:inset(calc(100% - var(--p,0%)) 0 -2px 0)}
+.player-box .onair{font-size:clamp(40px,8vw,96px);--stroke:rgba(255,255,255,.4)}
+.live-badge{position:absolute;left:16px;top:16px;z-index:4;display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:8px;background:var(--onair);color:#fff;font-size:11.5px;font-weight:850;letter-spacing:.14em;box-shadow:0 8px 20px rgba(239,59,93,.4);opacity:0;transform:translateY(-8px);transition:opacity .4s var(--ux-ease),transform .5s var(--ux-spring);pointer-events:none}
+.live-badge i{width:7px;height:7px;border-radius:50%;background:#fff;animation:blink 1.4s ease-in-out infinite}
+.player-box.is-live .live-badge{opacity:1;transform:none}
+.player-box.is-live.quiet .live-badge{opacity:0}
+.lower-third{position:absolute;left:16px;bottom:58px;z-index:4;max-width:min(78%,560px);padding:10px 16px 11px 18px;border-radius:14px;background:rgba(13,20,36,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);color:#fff;box-shadow:inset 4px 0 0 var(--primary);pointer-events:none;opacity:0;transform:translateX(-24px);transition:opacity .45s var(--ux-ease),transform .6s var(--ux-spring)}
+.lower-third small{display:block;font-size:11px;font-weight:800;letter-spacing:.12em;color:#9fb3ff}
+.lower-third b{display:block;font-size:16px;font-weight:800;letter-spacing:-.02em;line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.player-box.show-lt .lower-third{opacity:1;transform:none}
+.placeholder{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;padding:20px}
+.intro{background:rgba(255,255,255,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--panel-line);border-radius:var(--r-lg);padding:22px 24px;max-width:600px;box-shadow:var(--shadow-sm)}
+.intro h3{margin:10px 0 6px;font-size:21px;font-weight:850;letter-spacing:-.028em;line-height:1.45}
+.intro h3 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.intro p{color:var(--muted);font-size:14px;margin:0}
+.intro .eyebrow{font-size:13px;padding:7px 13px}
+.isteps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.isteps div{background:rgba(59,99,246,.07);text-align:center;border-radius:12px;padding:9px 8px;font-size:13px;font-weight:650;color:#3b4b6b}
+.nowbar{display:flex;align-items:center;gap:8px;padding:12px 6px 2px;flex-wrap:wrap}
+.now-text{flex:1;min-width:180px}
+.now-text small{display:block;font-size:11px;font-weight:800;letter-spacing:.12em;color:var(--muted)}
+.now-text b{display:block;font-size:15.5px;font-weight:750;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mini:disabled{opacity:.45;cursor:default;transform:none}
+.upnext{padding:18px;border-radius:var(--r-lg)}
+.upnext h3{margin:2px 0 10px;font-size:17px}
+.upnext .eb{font-size:12px;font-weight:800;letter-spacing:.12em;color:var(--primary)}
+.uplist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;max-height:430px;overflow:auto}
+.uprow{display:flex;gap:10px;align-items:center;width:100%;padding:7px;border:0;border-radius:14px;background:rgba(255,255,255,.7);box-shadow:0 0 0 1px var(--hairline);text-align:left;cursor:pointer;font:inherit;color:var(--ink);transition:transform .3s var(--ux-spring),box-shadow .2s}
+.uprow:hover{transform:translateX(3px);box-shadow:0 0 0 1px var(--ux-line-2)}
+.uprow.on{box-shadow:0 0 0 2px var(--onair)}
+.uprow:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.upth{position:relative;width:76px;aspect-ratio:16/9;flex:none;border-radius:9px;overflow:hidden;background:var(--g);display:grid;place-items:center;font-size:20px}
+.upth img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.uptx{min-width:0;flex:1}
+.uptx b{display:block;font-size:13.5px;font-weight:700;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.uptx small{font-size:12px;color:var(--ux-ink-3)}
+.card.playing{box-shadow:0 0 0 2px var(--onair),var(--shadow)}
+.on-air-tag{position:absolute;left:10px;top:10px;padding:3px 8px;border-radius:6px;background:var(--onair);color:#fff;font-size:10.5px;font-weight:850;letter-spacing:.12em;z-index:2}
+.listhead{display:flex;align-items:baseline;gap:10px;margin:0 0 14px}
+.listhead h3{margin:0;font-size:19px}
+.listhead .count{font-size:13px;font-weight:800;color:var(--primary);background:var(--ux-accent-soft);padding:2px 9px;border-radius:999px}
+
+/* modal */
+dialog{border:0;padding:0;border-radius:var(--r-xl);width:min(920px,94vw);background:var(--panel);backdrop-filter:blur(20px);box-shadow:var(--shadow);color:var(--ink)}
+dialog::backdrop{background:rgba(20,28,48,.45);backdrop-filter:blur(4px)}
+dialog[open]{animation:pageIn .35s ease both}
+.mhead{display:flex;align-items:center;gap:10px;padding:16px 18px 10px 22px}
+.mhead h3{margin:0;font-size:19px;flex:1;letter-spacing:-.02em}
+.xbtn{width:40px;height:40px;border-radius:50%;border:0;background:var(--ux-surface-2);font-size:20px;cursor:pointer;color:var(--ink)}
+.player{margin:0 18px;aspect-ratio:16/9;border-radius:20px;overflow:hidden;background:#0d1424;display:grid;place-items:center;color:#cbd5e1;text-align:center}
+.player.doc{aspect-ratio:auto;height:min(70vh,760px)}
+.player iframe,.player video{width:100%;height:100%;border:0}
+.mfoot{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:14px 22px 20px}
+.mfoot p{flex:1;margin:0;color:var(--muted);font-size:14px;min-width:220px}
+
+/* admin */
+.admin{padding:24px;display:none}
+.admin.show{display:block}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form label{display:flex;flex-direction:column;gap:5px;font-size:13.5px;font-weight:700;color:var(--muted)}
+.form .full{grid-column:1/-1}
+.form input,.form select,.form textarea{height:44px;border-radius:12px;border:1px solid var(--ux-line-2);padding:0 12px;font:inherit;font-size:14.5px;color:var(--ink);background:#fff}
+.form textarea{height:80px;padding:10px 12px;resize:vertical}
+.form input:focus,.form select:focus,.form textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(59,99,246,.14)}
+
+footer{text-align:center;color:var(--muted);font-size:13.5px;padding:40px 0 60px}
+
+/* ===== Lucian #070 겹쳐 쌓이는 토스트 (ported: fixed corner, demo buttons removed, API window.toast) ===== */
+.u070{position:fixed;right:20px;bottom:20px;z-index:80;width:350px;max-width:calc(100vw - 32px);height:370px;pointer-events:none}
+.u070-zone{position:absolute;left:0;right:0;bottom:0;height:300px;outline:none}
+.u070-t{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;gap:12px;min-height:68px;padding:12px 12px 12px 14px;border-radius:20px;background:var(--ux-surface);box-shadow:0 0 0 1px var(--ux-line),0 16px 30px -18px var(--ux-shadow-strong);transform-origin:50% 100%;transform:translate(var(--dx,0px),var(--y,0px)) scale(var(--s,1));opacity:var(--o,1);transition:transform .5s var(--ux-spring),opacity .35s;touch-action:pan-y;user-select:none;-webkit-user-select:none;pointer-events:auto}
+.u070-t.drag{transition:none}
+.u070-t.enter{transform:translateY(90px) scale(.9);opacity:0}
+.u070-t.leave{transform:translate(var(--dx,0px),var(--y,0px)) scale(var(--s,1));opacity:0;pointer-events:none}
+.u070-t.leave.side{transform:translate(calc(var(--dir,1) * 420px),var(--y,0px)) rotate(calc(var(--dir,1) * 8deg))}
+.u070-t>*{transition:opacity .25s}
+.u070-t.back>*{opacity:0}
+.u070-ic{width:36px;height:36px;flex:none;border-radius:12px;display:grid;place-items:center;background:color-mix(in srgb,var(--c) 15%,transparent);color:var(--c)}
+.u070-ic svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.u070-ic i{width:18px;height:18px;border-radius:50%;border:2.5px solid currentColor;border-right-color:transparent;animation:u070-spin .7s linear infinite}
+@keyframes u070-spin{to{transform:rotate(360deg)}}
+.u070-tx{flex:1;min-width:0}
+.u070-tx b{display:block;font-size:14px;font-weight:780;letter-spacing:-.02em}
+.u070-tx small{display:block;margin-top:2px;font-size:12.5px;font-weight:600;color:var(--ux-ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.u070-act{height:32px;padding:0 11px;border:0;border-radius:10px;background:var(--ux-surface-2);font-size:12.5px;font-weight:750;color:var(--ux-ink)}
+.u070-x{width:30px;height:30px;flex:none;border:0;padding:0;border-radius:50%;display:grid;place-items:center;background:none;color:var(--ux-ink-3)}
+.u070-x:hover{background:var(--ux-surface-2);color:var(--ux-ink)}
+.u070-x svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round}
+.u070-act:focus-visible,.u070-x:focus-visible{outline:2px solid var(--ux-accent);outline-offset:1px}
+.u070-bar{position:absolute;left:16px;right:16px;bottom:0;height:2px;border-radius:2px;background:var(--c);opacity:.5;transform-origin:0 50%;transform:scaleX(var(--left,1))}
+.u070-live{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+@media (max-width:1024px){
+  .hero{grid-template-columns:1fr}
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .feats{grid-template-columns:1fr 1fr}
+  .faqgrid{grid-template-columns:1fr}
+}
+@media (max-width:520px){
+  .wrap{padding:0 16px}
+  h1{font-size:27px}
+  .hero{padding:32px 0 20px}
+  .nav nav{display:none}
+  .grid,.feats,.form{grid-template-columns:1fr}
+  .sh h2{font-size:24px}
+  .steps3{flex-direction:column}
+  .u070{right:16px;bottom:16px}
+}
+@media (prefers-reduced-motion:reduce){
+  .blob,.hero,.card,dialog[open],.skel{animation:none!important}
+  .ux,.ux *,.ux *::before,.ux *::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<div class="blob a" aria-hidden="true"></div><div class="blob b" aria-hidden="true"></div><div class="blob c" aria-hidden="true"></div>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top"><span class="mark">G1</span><span>G-ONE 쉽게 배우기<small>교사 업무 효율화 지원단</small></span></a>
+    <nav aria-label="주 메뉴">
+      <a href="#start" class="on">처음이라면</a>
+      <a href="#library">자료실</a>
+      <a href="#faq">자주 묻는 질문</a>
+    </nav>
+    <span class="lamp" id="onAirLamp" aria-live="polite"><i aria-hidden="true"></i><span id="onAirText">STANDBY</span></span>
+  </div>
+</header>
+
+<main id="top" class="wrap">
+  <!-- HERO -->
+  <section class="hero">
+    <div>
+      <span class="eyebrow">✨ 「교사 행정업무 Zero-ON」 교사 업무 효율화 지원단</span>
+      <h1>G-ONE, 어렵지 않아요<br><span class="grad">2분 영상이면 바로 씁니다</span></h1>
+      <p class="lead">GOE메신저에 익숙한 선생님도 <strong>부담 없이 옮겨 올 수 있도록</strong>, 일정과 브리티 메신저의 기본 기능을 짧은 영상과 PDF 안내서로 모았습니다.</p>
+      <div class="cta">
+        <a class="btn p" href="#start">▶ 에센셜 영상부터 보기</a>
+        <a class="btn s" href="#library">📚 전체 자료 보기</a>
+      </div>
+      <div class="stats" aria-live="polite">
+        <div class="stat"><b id="stVideo">-</b><span>안내 영상</span></div>
+        <div class="stat"><b id="stPdf">-</b><span>PDF 안내서</span></div>
+        <div class="stat"><b id="stViews">-</b><span>함께 본 횟수</span></div>
+      </div>
+    </div>
+    <div class="glass pick">
+      <span class="lab">TODAY'S PICK</span>
+      <h3 id="pickTitle">브리티 메신저 에센셜 편</h3>
+      <p id="pickDesc">GOE메신저 쓰던 선생님을 위한 빠른 전환 가이드</p>
+      <button class="poster" type="button" id="pickPlay" aria-label="추천 영상 재생"><span class="ttl">🚀 이것만 보면 바로 씁니다</span><span class="play"></span><span class="dur" id="pickDur">1:30</span></button>
+      <div class="steps3">
+        <div><b>1주차</b>자동 로그인 + 쪽지</div>
+        <div><b>2주차</b>조직도 + 대화</div>
+        <div><b>3주차</b>워크스페이스 도전</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- START -->
+  <section class="blk" id="start">
+    <div class="sh"><span class="eb">START HERE</span><h2>🧭 처음이라면 이 순서로</h2><p>새로 배울 건 많지 않아요. <strong>늘 쓰던 기능이 자리만 옮겼을 뿐</strong>입니다.</p></div>
+    <div class="feats">
+      <article class="glass feat"><div class="em">🔐</div><h3>자동 로그인부터</h3><p>[환경설정] → [일반]에서 <strong>스위치 두 개만 켜면</strong> PC를 켤 때 바로 로그인돼요.</p></article>
+      <article class="glass feat"><div class="em">✉️</div><h3>쪽지는 그대로</h3><p>수신확인과 회수(발신취소)까지 <strong>GOE메신저와 같은 방식</strong>으로 씁니다.</p></article>
+      <article class="glass feat"><div class="em">📅</div><h3>일정은 함께</h3><p>학교 캘린더에 <strong>기관 공개로 등록</strong>하면 모든 선생님이 함께 봐요.</p></article>
+    </div>
+  </section>
+
+  <!-- LIBRARY -->
+  <section class="blk" id="library">
+    <div class="sh"><span class="eb">LIBRARY</span><h2>📚 자료실</h2><p>보고 싶은 주제를 고르거나 검색해 보세요. 카드를 누르면 바로 재생됩니다.</p></div>
+    <div class="demo" id="demo">지금은 <strong>미리보기용 예시 데이터</strong>입니다. index.html의 API_URL에 Apps Script 웹앱 주소를 넣으면 구글 시트 자료가 표시됩니다.</div>
+    <div class="tool">
+      <label class="search"><span class="sr">자료 검색</span>
+        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="9" cy="9" r="6"/><path d="M14 14l4 4"/></svg>
+        <input id="q" type="search" placeholder="예: 자동 로그인, 쪽지, 기관 공개" autocomplete="off">
+      </label>
+      <div class="tabscroll">
+        <!-- Lucian UX/UI Prompt #039 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#039 -->
+        <div class="ux u039" id="cats">
+          <div class="u039-tabs" role="tablist" aria-label="자료 분류">
+            <span class="u039-pill" aria-hidden="true"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="player-layout" id="watch">
+      <section class="glass stage" aria-label="시청 화면">
+        <div class="player-box" id="playerBox">
+          <div class="tune-bg" aria-hidden="true"></div>
+          <iframe id="videoIframe" src="about:blank" tabindex="-1" title="선택한 자료 보기" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>
+          <div class="tune" aria-hidden="true">
+            <div class="onair" id="tuneWord"><span class="base">ON AIR</span><span class="fill">ON AIR</span></div>
+            <div class="tune-meta"><b id="tuneNum">0</b>% 연결 중</div>
+            <div class="tune-bar" id="tuneBar"><i></i></div>
+          </div>
+          <span class="live-badge" aria-hidden="true"><i></i>ON AIR</span>
+          <div class="lower-third" aria-hidden="true"><small>지금 보는 중</small><b id="ltTitle"></b></div>
+          <div class="placeholder" id="playerPlaceholder">
+            <div class="intro">
+              <span class="eyebrow">🎬 G-ONE 쉽게 배우기 시청관</span>
+              <h3 id="phTitle">보고 싶은 자료를 고르면,<br><em>여기서 바로 재생돼요</em></h3>
+              <p id="phText">검색하거나 분류를 고른 뒤 카드의 <strong>[▶ 재생]</strong>을 누르세요. 처음이라면 <strong>에센셜 편</strong>부터 추천합니다.</p>
+              <div class="isteps"><div>① 검색·분류</div><div>② ▶ 재생</div><div>③ 다음 영상</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="nowbar">
+          <div class="now-text"><small id="nowLabel">STANDBY</small><b id="nowTitle">볼 자료를 골라 주세요</b></div>
+          <button class="mini" type="button" id="shareBtn" disabled>🔗 링크</button>
+          <a class="mini" id="openBtn" target="_blank" rel="noopener" style="display:none;align-items:center;text-decoration:none">새 창</a>
+          <button class="mini" type="button" id="fullBtn" disabled>⛶ 크게</button>
+          <button class="mini go" type="button" id="nextBtn" disabled>다음 ▶</button>
+          <button class="mini" type="button" id="stopBtn" disabled>■ 끄기</button>
+        </div>
+      </section>
+      <aside class="glass upnext" aria-label="다음 볼 영상">
+        <span class="eb">UP NEXT</span>
+        <h3>📺 이어서 보기</h3>
+        <ul class="uplist" id="upList"></ul>
+      </aside>
+    </div>
+    <div class="listhead"><h3 id="listTitle">전체 자료</h3><span class="count" id="listCount">0</span></div>
+    <div class="grid" id="grid" aria-live="polite">
+      <div class="skel"></div><div class="skel"></div><div class="skel"></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="blk" id="faq">
+    <div class="sh"><span class="eb">FAQ</span><h2>💬 자주 묻는 질문</h2><p>선생님들이 가장 많이 물어보신 내용입니다.</p></div>
+    <div class="faqgrid">
+      <!-- Lucian UX/UI Prompt #044 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#044 -->
+      <div class="ux u044">
+        <div class="u044-it open">
+          <button class="u044-q" type="button" aria-expanded="true"><span class="u044-n">01</span><span class="u044-t">브리티 메신저도 자동 로그인이 되나요?</span><span class="u044-pm" aria-hidden="true"></span></button>
+          <div class="u044-body" role="region"><div><div class="u044-a"><p>네! 왼쪽 아래 톱니 [환경설정] → [일반]에서 ‘PC 실행 시 자동 실행’과 ‘메신저 실행 시 자동 로그인’을 켜고 [저장]하면 됩니다.</p><a href="#library" data-q="자동 로그인">자동 로그인 영상 보기 <i aria-hidden="true">→</i></a></div></div></div>
+        </div>
+        <div class="u044-it">
+          <button class="u044-q" type="button" aria-expanded="false"><span class="u044-n">02</span><span class="u044-t">GOE메신저의 쪽지 회수는 어떻게 하나요?</span><span class="u044-pm" aria-hidden="true"></span></button>
+          <div class="u044-body" role="region"><div><div class="u044-a"><p>보낸 쪽지의 [전체보기]에서 받는 사람을 체크하고 [발신취소]를 누르면, 아직 읽지 않은 사람에게서 회수됩니다.</p><a href="#library" data-q="쪽지">쪽지 영상 보기 <i aria-hidden="true">→</i></a></div></div></div>
+        </div>
+        <div class="u044-it">
+          <button class="u044-q" type="button" aria-expanded="false"><span class="u044-n">03</span><span class="u044-t">학교 전체 일정은 어떻게 공유하나요?</span><span class="u044-pm" aria-hidden="true"></span></button>
+          <div class="u044-body" role="region"><div><div class="u044-a"><p>일정을 등록할 때 공개 범위를 [기관 공개]로 고르고 학교 캘린더를 선택하세요. 참석자를 넣으면 그 선생님 캘린더에도 함께 들어갑니다.</p><a href="#library" data-q="일정">일정 영상 보기 <i aria-hidden="true">→</i></a></div></div></div>
+        </div>
+        <div class="u044-it">
+          <button class="u044-q" type="button" aria-expanded="false"><span class="u044-n">04</span><span class="u044-t">메시지를 쓰다 줄을 바꾸고 싶어요.</span><span class="u044-pm" aria-hidden="true"></span></button>
+          <div class="u044-body" role="region"><div><div class="u044-a"><p>[환경설정] → [대화·워크스페이스]에서 전송 방식을 ‘Shift/Alt+Enter 또는 전송 버튼’으로 바꾸면 Enter로 줄을 바꿀 수 있어요.</p><a href="#library" data-q="환경설정">환경설정 영상 보기 <i aria-hidden="true">→</i></a></div></div></div>
+        </div>
+      </div>
+      <div class="glass help">
+        <h3>🙋 더 궁금한 점이 있으신가요?</h3>
+        <p>영상과 안내서로 해결되지 않는 부분은 <strong>교사 업무 효율화 지원단</strong>에 메신저로 편하게 물어봐 주세요. 자주 나오는 질문은 이곳에 계속 추가하겠습니다.</p>
+        <button class="btn s" type="button" id="shareSite">🔗 이 사이트 주소 복사</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADMIN (?admin 으로 열기) -->
+  <section class="blk">
+    <div class="glass admin" id="admin">
+      <div class="sh"><span class="eb">ADMIN</span><h2>🛠️ 자료 등록</h2><p>구글 시트에 바로 저장됩니다. 관리자 키는 Apps Script의 스크립트 속성 ADMIN_KEY와 같아야 해요.</p></div>
+      <form class="form" id="addForm">
+        <label>제목<input name="title" required placeholder="예: 브리티 메신저 4편 쪽지"></label>
+        <label>분류<select name="category"><option value="messenger">브리티 메신저</option><option value="calendar">G-ONE 일정</option><option value="guide">안내서</option><option value="etc">기타</option></select></label>
+        <label>형식<select name="type"><option value="video">영상</option><option value="pdf">PDF</option><option value="link">링크</option></select></label>
+        <label>길이/분량<input name="duration" placeholder="예: 1:30 또는 7쪽"></label>
+        <label class="full">자료 주소 (구글 드라이브 공유 링크 또는 유튜브)<input name="url" placeholder="https://drive.google.com/file/d/…/view"></label>
+        <label class="full">설명<textarea name="description" placeholder="한두 문장으로 소개해 주세요"></textarea></label>
+        <label>태그 (쉼표로 구분)<input name="tags" placeholder="자동 로그인, 쪽지"></label>
+        <label>관리자 키<input name="key" type="password" required autocomplete="off"></label>
+        <div class="full"><button class="btn p" type="submit">시트에 저장</button></div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>© 2026 「교사 행정업무 Zero-ON」 교사 업무 효율화 지원단 · 선생님이 수업과 아이들에게 더 집중할 수 있도록</footer>
+
+
+
+<!-- Lucian UX/UI Prompt #070 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#070 -->
+<div class="ux u070" id="toaster">
+  <div class="u070-zone" role="region" aria-label="알림" tabindex="-1">
+    <div class="u070-live" aria-live="polite"></div>
+  </div>
+</div>
+<script>
+/* #070 ported: demo buttons/sample toasts removed; exposes window.toast(kind, title, sub, action) */
+(function () {
+  var root = document.getElementById('toaster');
+  var zone = root.querySelector('.u070-zone'), live = root.querySelector('.u070-live');
+  var rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var ICON = { ok: '<svg viewBox="0 0 18 18"><path d="M4 9.4l3.2 3.2L14 5.6"/></svg>', err: '<svg viewBox="0 0 18 18"><path d="M9 5v5M9 13h.01"/></svg>', info: '<svg viewBox="0 0 18 18"><path d="M3.5 4.5h11v7h-6l-3 2.5v-2.5h-2z"/></svg>', wait: '<i></i>' };
+  var COL = { ok: 'var(--ux-mint)', err: 'var(--ux-danger)', info: 'var(--ux-accent)', wait: 'var(--ux-warn)' };
+  var list = [], open = false, DUR = 4500;
+  function layout() {
+    var acc = 0;
+    list.forEach(function (t, i) {
+      var el = t.el;
+      el.classList.toggle('back', !open && i > 0);
+      if (open) { el.style.setProperty('--y', -acc + 'px'); el.style.setProperty('--s', 1); el.style.setProperty('--o', 1); acc += el.offsetHeight + 8; }
+      else { el.style.setProperty('--y', -(i * 14) + 'px'); el.style.setProperty('--s', (1 - i * 0.06).toFixed(2)); el.style.setProperty('--o', i > 2 ? 0 : 1); }
+      el.style.zIndex = 50 - i;
+      el.inert = !open && i > 0;
+    });
+  }
+  function remove(t, dir) {
+    var i = list.indexOf(t);
+    if (i < 0) return;
+    list.splice(i, 1);
+    t.el.classList.add('leave');
+    if (dir) { t.el.style.setProperty('--dir', dir); t.el.classList.add('side'); }
+    setTimeout(function () { t.el.remove(); }, 450);
+    layout();
+  }
+  function push(k, title, sub, action) {
+    var el = document.createElement('div');
+    el.className = 'u070-t enter';
+    el.style.setProperty('--c', COL[k] || COL.info);
+    el.setAttribute('role', k === 'err' ? 'alert' : 'status');
+    el.innerHTML = '<span class="u070-ic" aria-hidden="true">' + (ICON[k] || ICON.info) + '</span><span class="u070-tx"><b></b><small></small></span>' + (action ? '<button class="u070-act" type="button"></button>' : '') + '<button class="u070-x" type="button" aria-label="알림 닫기"><svg viewBox="0 0 14 14"><path d="M3.5 3.5l7 7M10.5 3.5l-7 7"/></svg></button><span class="u070-bar" aria-hidden="true"></span>';
+    el.querySelector('b').textContent = title; el.querySelector('small').textContent = sub || '';
+    if (action) el.querySelector('.u070-act').textContent = action.label;
+    var t = { el: el, left: k === 'wait' ? Infinity : DUR };
+    zone.appendChild(el);
+    list.unshift(t);
+    void el.offsetWidth;
+    el.classList.remove('enter');
+    layout();
+    live.textContent = title;
+    el.querySelector('.u070-x').addEventListener('click', function () { remove(t); });
+    if (action) el.querySelector('.u070-act').addEventListener('click', function () { remove(t); action.run(); });
+    var sx = 0, dx = 0, down = false;
+    el.addEventListener('pointerdown', function (e) { if (e.target.closest('button')) return; down = true; sx = e.clientX; dx = 0; el.setPointerCapture(e.pointerId); el.classList.add('drag'); });
+    el.addEventListener('pointermove', function (e) { if (!down) return; dx = e.clientX - sx; el.style.setProperty('--dx', dx + 'px'); el.style.setProperty('--o', Math.max(0.2, 1 - Math.abs(dx) / 260)); });
+    var end = function () { if (!down) return; down = false; el.classList.remove('drag'); if (Math.abs(dx) > 90) remove(t, dx > 0 ? 1 : -1); else { el.style.setProperty('--dx', '0px'); layout(); } };
+    el.addEventListener('pointerup', end); el.addEventListener('pointercancel', end);
+    return {
+      done: function (kk, tt, ss) {
+        if (list.indexOf(t) < 0) return;
+        el.style.setProperty('--c', COL[kk]); el.querySelector('.u070-ic').innerHTML = ICON[kk];
+        el.querySelector('b').textContent = tt; el.querySelector('small').textContent = ss || '';
+        live.textContent = tt; t.left = DUR;
+      },
+      close: function () { remove(t); }
+    };
+  }
+  var last = performance.now();
+  (function loop(now) {
+    var dt = now - last; last = now;
+    if (!open) list.slice().forEach(function (t, i) {
+      if (i > 0 || t.left === Infinity) return;
+      t.left -= dt;
+      t.el.style.setProperty('--left', Math.max(0, t.left / DUR).toFixed(3));
+      if (t.left <= 0) remove(t);
+    });
+    requestAnimationFrame(loop);
+  })(last);
+  function setOpen(v) { if (open === v) return; open = v; layout(); }
+  zone.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') setOpen(true); });
+  zone.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse' && !zone.contains(document.activeElement)) setOpen(false); });
+  zone.addEventListener('focusin', function () { setOpen(true); });
+  zone.addEventListener('focusout', function (e) { if (!zone.contains(e.relatedTarget)) setOpen(false); });
+  zone.addEventListener('click', function (e) { if (!e.target.closest('button') && list.length > 1) setOpen(!open); });
+  window.toast = push;
+})();
+</script>
+
+<script>
+/* ================= 설정 ================= */
+// Apps Script 웹앱 배포 후 받은 주소(…/exec)를 넣으세요. 비워 두면 예시 데이터로 미리보기합니다.
+var API_URL = '';
+
+var CATS = [
+  { id: 'all', label: '전체' },
+  { id: 'messenger', label: '브리티 메신저' },
+  { id: 'calendar', label: 'G-ONE 일정' },
+  { id: 'guide', label: 'PDF 안내서' },
+  { id: 'etc', label: '기타' }
+];
+var GRAD = {
+  messenger: 'linear-gradient(135deg,#3b63f6,#8e9cff)',
+  calendar: 'linear-gradient(135deg,#16a34a,#7fd8c9)',
+  guide: 'linear-gradient(135deg,#f59e0b,#ff9fb5)',
+  etc: 'linear-gradient(135deg,#0891b2,#38bdf8)'
+};
+var EMOJI = { messenger: '💬', calendar: '📅', guide: '📘', etc: '🔗' };
+
+/* 시트 연결 전 미리보기용 예시 (시트의 resources 시트와 같은 열 구성) */
+var SAMPLE = [
+  { id: 'm0', order: 1, category: 'messenger', type: 'video', title: '브리티 메신저 에센셜 편', description: 'GOE메신저 쓰던 선생님을 위한 빠른 전환: 자동 로그인, 선생님 찾기, 쪽지, 대화, 알림까지 한 번에.', url: '', duration: '1:30', tags: '에센셜,자동 로그인,쪽지,전환', featured: true, views: 0, isNew: true },
+  { id: 'm1', order: 2, category: 'messenger', type: 'video', title: '브리티 메신저 1편 · 시작하기와 자동 로그인', description: '설치, 로그인, 자동 로그인 3단계, 화면 구성을 알아봅니다.', url: '', duration: '1:35', tags: '자동 로그인,설치,로그인', views: 0 },
+  { id: 'm2', order: 3, category: 'messenger', type: 'video', title: '브리티 메신저 2편 · 연락처·조직도로 선생님 찾기', description: '내 상태 바꾸기, 조직도, 검색, 여러 명에게 한 번에 보내기.', url: '', duration: '1:19', tags: '조직도,연락처,검색', views: 0 },
+  { id: 'm3', order: 4, category: 'messenger', type: 'video', title: '브리티 메신저 3편 · 대화하기', description: '1:1과 그룹 대화, 메시지 예약 발신, 이모티콘, 공지방.', url: '', duration: '1:32', tags: '대화,예약 발신,공지방', views: 0 },
+  { id: 'm4', order: 5, category: 'messenger', type: 'video', title: '브리티 메신저 4편 · 쪽지 보내고 확인하기', description: '쪽지 쓰기, 받는 사람 고르기, 읽음 확인, 발신취소, 답장·전달.', url: '', duration: '1:31', tags: '쪽지,수신확인,회수,발신취소', views: 0 },
+  { id: 'm5', order: 6, category: 'messenger', type: 'video', title: '브리티 메신저 5편 · 워크스페이스·채널', description: '워크스페이스와 채널 만들기, 멤버 초대, 공지·파일·링크 탭.', url: '', duration: '1:31', tags: '워크스페이스,채널,협업', views: 0 },
+  { id: 'm6', order: 7, category: 'messenger', type: 'video', title: '브리티 메신저 6편 · 환경설정', description: '알림, 키워드 알림, 메시지 전송 키, 파일 저장 위치, 글꼴, 스킨.', url: '', duration: '1:31', tags: '환경설정,알림,줄바꿈', views: 0 },
+  { id: 'c1', order: 8, category: 'calendar', type: 'video', title: 'G-ONE 일정 관리 1부', description: '캘린더 만들기, 일정 등록(기관 공개·참석자), 상세 등록으로 여러 명 공유.', url: '', duration: '2:57', tags: '일정,캘린더,기관 공개', views: 0 },
+  { id: 'c2', order: 9, category: 'calendar', type: 'video', title: 'G-ONE 일정 관리 2부', description: 'Year 보기, 할 일, 캘린더 공유·구독, ICS 내보내기·가져오기.', url: '', duration: '2:05', tags: '일정,구독,ICS,할 일', views: 0 },
+  { id: 'c3', order: 10, category: 'calendar', type: 'video', title: '브리티 일정 관리 TIP', description: '날짜 클릭 간편 등록부터 상세 등록, 수정·삭제, 할 일까지.', url: '', duration: '3:05', tags: '일정,할 일,TIP', views: 0 },
+  { id: 'g1', order: 11, category: 'guide', type: 'pdf', title: '브리티 메신저 첫걸음 (PDF)', description: 'GOE메신저 쓰던 선생님을 위한 기본 사용법 7쪽 안내서. 기능 비교표와 3주 전환 로드맵 포함.', url: '', duration: '7쪽', tags: 'PDF,안내서,전환,비교표', views: 0, isNew: true }
+];
+
+/* ================= 데이터 ================= */
+var DATA = [], state = { cat: 'all', q: '' };
+
+function api(params) {
+  var u = API_URL + '?' + new URLSearchParams(params).toString();
+  return fetch(u, { redirect: 'follow' }).then(function (r) { return r.json(); });
+}
+function load() {
+  if (!API_URL) {
+    document.getElementById('demo').style.display = 'block';
+    DATA = SAMPLE.slice();
+    return Promise.resolve();
+  }
+  return api({ action: 'list' }).then(function (res) {
+    if (!res.ok) throw new Error(res.error || '불러오기 실패');
+    DATA = res.items;
+  }).catch(function (e) {
+    window.toast('err', '자료를 불러오지 못했어요', '잠시 후 다시 시도해 주세요', { label: '다시 시도', run: function () { load().then(render); } });
+    DATA = SAMPLE.slice();
+    document.getElementById('demo').style.display = 'block';
+  });
+}
+
+/* 구글 드라이브·유튜브 주소 → 미리보기 주소 */
+function driveId(u) { var m = /\/d\/([\w-]{20,})/.exec(u) || /[?&]id=([\w-]{20,})/.exec(u); return m && m[1]; }
+function ytId(u) { var m = /(?:youtu\.be\/|v=|shorts\/|embed\/)([\w-]{11})/.exec(u); return m && m[1]; }
+function embedUrl(u) {
+  if (!u) return '';
+  var d = driveId(u); if (d) return 'https://drive.google.com/file/d/' + d + '/preview';
+  var y = ytId(u); if (y) return 'https://www.youtube-nocookie.com/embed/' + y + '?rel=0';
+  return u;
+}
+function thumbUrl(it) {
+  if (it.thumbnail) return it.thumbnail;
+  var d = driveId(it.url || ''); if (d) return 'https://drive.google.com/thumbnail?id=' + d + '&sz=w640';
+  var y = ytId(it.url || ''); if (y) return 'https://i.ytimg.com/vi/' + y + '/hqdefault.jpg';
+  return '';
+}
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+
+/* ================= #039 알약 탭 (ported) ================= */
+var tabsApi = (function () {
+  var root = document.getElementById('cats');
+  var bar = root.querySelector('.u039-tabs');
+  var pill = root.querySelector('.u039-pill');
+  var tabs = [], cur = 0;
+  function movePill(animate) {
+    var t = tabs[cur]; if (!t) return;
+    if (!animate) pill.style.transition = 'none';
+    pill.style.setProperty('--x', t.offsetLeft + 'px');
+    pill.style.setProperty('--w', t.offsetWidth + 'px');
+    if (!animate) { void pill.offsetWidth; pill.style.transition = ''; }
+  }
+  function select(i, focus) {
+    cur = i;
+    tabs.forEach(function (t, k) { t.setAttribute('aria-selected', String(k === i)); t.tabIndex = k === i ? 0 : -1; });
+    if (focus) tabs[i].focus();
+    movePill(true);
+    state.cat = CATS[i].id; render();
+  }
+  CATS.forEach(function (c, i) {
+    var b = document.createElement('button');
+    b.className = 'u039-tab'; b.type = 'button'; b.setAttribute('role', 'tab');
+    b.setAttribute('aria-controls', 'grid');
+    b.innerHTML = esc(c.label) + '<em></em>';
+    b.addEventListener('click', function () { select(i); });
+    b.addEventListener('keydown', function (e) {
+      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (d) { e.preventDefault(); select((i + d + tabs.length) % tabs.length, true); }
+    });
+    bar.appendChild(b); tabs.push(b);
+  });
+  tabs.forEach(function (t, k) { t.setAttribute('aria-selected', String(k === 0)); t.tabIndex = k === 0 ? 0 : -1; });
+  window.addEventListener('resize', function () { movePill(false); });
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(function () { movePill(false); });
+  return {
+    counts: function () {
+      CATS.forEach(function (c, i) {
+        var n = c.id === 'all' ? DATA.length : DATA.filter(function (d) { return d.category === c.id; }).length;
+        tabs[i].querySelector('em').textContent = n;
+        tabs[i].hidden = c.id !== 'all' && n === 0;
+      });
+      movePill(false);
+    },
+    selectById: function (id) { var i = CATS.map(function (c) { return c.id; }).indexOf(id); if (i >= 0) select(i); }
+  };
+})();
+
+/* ================= 렌더 ================= */
+function match(it) {
+  if (state.cat !== 'all' && it.category !== state.cat) return false;
+  if (!state.q) return true;
+  var hay = (it.title + ' ' + it.description + ' ' + it.tags).toLowerCase();
+  return state.q.toLowerCase().split(/\s+/).every(function (w) { return hay.indexOf(w) >= 0; });
+}
+function current() {
+  return DATA.filter(match).sort(function (a, b) { return (a.order || 99) - (b.order || 99); });
+}
+function render() {
+  var grid = document.getElementById('grid');
+  var items = current();
+  var cat = CATS.filter(function (c) { return c.id === state.cat; })[0];
+  document.getElementById('listTitle').textContent = (state.q ? '‘' + state.q + '’ 검색 결과' : (cat && cat.id !== 'all' ? cat.label : '전체 자료'));
+  document.getElementById('listCount').textContent = items.length;
+  renderUpNext(items);
+  if (!items.length) {
+    grid.innerHTML = '<div class="empty"><div class="em">🔍</div><p><strong>찾는 자료가 없어요.</strong><br>다른 낱말로 검색하거나 ‘전체’를 눌러 보세요.</p><button class="mini" type="button" id="resetQ">검색 지우기</button></div>';
+    document.getElementById('resetQ').onclick = function () { document.getElementById('q').value = ''; state.q = ''; tabsApi.selectById('all'); };
+    return;
+  }
+  grid.innerHTML = items.map(function (it, k) {
+    var th = thumbUrl(it), isPdf = it.type === 'pdf', on = String(it.id) === String(playingId);
+    return '<article class="card' + (on ? ' playing' : '') + '" data-id="' + esc(it.id) + '" style="animation-delay:' + Math.min(k * 40, 400) + 'ms">' +
+      '<button class="thumb" type="button" data-open="' + esc(it.id) + '" style="--g:' + (GRAD[it.category] || GRAD.etc) + '" aria-label="' + esc(it.title) + ' 재생">' +
+      (th ? '<img src="' + esc(th) + '" alt="" loading="lazy" onerror="this.remove()">' : '') +
+      '<span class="ic" aria-hidden="true">' + (isPdf ? '📘' : (EMOJI[it.category] || '🎬')) + '</span>' +
+      (on ? '<span class="on-air-tag">ON AIR</span>' : '') +
+      (it.duration ? '<span class="dur">' + esc(it.duration) + '</span>' : '') + '</button>' +
+      '<div class="cbody"><div class="tags"><span class="tag' + (isPdf ? ' pdf' : '') + '">' + (isPdf ? 'PDF' : it.type === 'link' ? '링크' : '영상') + '</span>' + (it.isNew ? '<span class="tag new">NEW</span>' : '') + '</div>' +
+      '<h3>' + esc(it.title) + '</h3><p>' + esc(it.description) + '</p>' +
+      '<div class="cfoot"><span class="views">👀 ' + Number(it.views || 0).toLocaleString() + '회</span>' +
+      '<button class="mini" type="button" data-share="' + esc(it.id) + '">링크</button>' +
+      '<button class="mini go" type="button" data-open="' + esc(it.id) + '">' + (isPdf ? '보기' : '▶ 재생') + '</button></div></div></article>';
+  }).join('');
+}
+function renderUpNext(items) {
+  var ul = document.getElementById('upList');
+  if (!items.length) { ul.innerHTML = '<li style="color:var(--muted);font-size:14px;padding:8px">목록이 비어 있어요.</li>'; return; }
+  var i = items.findIndex(function (d) { return String(d.id) === String(playingId); });
+  var order = i < 0 ? items : items.slice(i + 1).concat(items.slice(0, i + 1));
+  ul.innerHTML = order.map(function (it) {
+    var th = thumbUrl(it), on = String(it.id) === String(playingId);
+    return '<li><button class="uprow' + (on ? ' on' : '') + '" type="button" data-open="' + esc(it.id) + '">' +
+      '<span class="upth" style="--g:' + (GRAD[it.category] || GRAD.etc) + '">' + (th ? '<img src="' + esc(th) + '" alt="" loading="lazy" onerror="this.remove()">' : '') + (it.type === 'pdf' ? '📘' : (EMOJI[it.category] || '🎬')) + '</span>' +
+      '<span class="uptx"><b>' + esc(it.title) + '</b><small>' + (on ? '지금 보는 중' : esc(it.duration || '')) + '</small></span></button></li>';
+  }).join('');
+}
+function stats() {
+  var v = DATA.filter(function (d) { return d.type === 'video'; }).length;
+  var p = DATA.filter(function (d) { return d.type === 'pdf'; }).length;
+  var views = DATA.reduce(function (s, d) { return s + Number(d.views || 0); }, 0);
+  document.getElementById('stVideo').textContent = v + '편';
+  document.getElementById('stPdf').textContent = p + '종';
+  document.getElementById('stViews').textContent = views.toLocaleString() + '회';
+  var f = DATA.filter(function (d) { return d.featured; })[0] || DATA[0];
+  if (f) {
+    document.getElementById('pickTitle').textContent = f.title;
+    document.getElementById('pickDesc').textContent = f.description;
+    document.getElementById('pickDur').textContent = f.duration || '';
+    document.getElementById('pickPlay').onclick = function () { openItem(f.id); };
+  }
+}
+
+/* ================= 시청관 (ON AIR 무대) ================= */
+var playingId = null, tuneToken = 0, ltTimer = 0;
+var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function $(id) { return document.getElementById(id); }
+function byId(id) { return DATA.filter(function (d) { return String(d.id) === String(id); })[0]; }
+function linkFor(it) { return location.origin + location.pathname + '#item=' + encodeURIComponent(it.id); }
+function setOnAir(it) {
+  var on = !!it;
+  $('onAirLamp').classList.toggle('on', on);
+  $('onAirText').textContent = on ? 'ON AIR' : 'STANDBY';
+  $('nowLabel').textContent = on ? 'NOW PLAYING' : 'STANDBY';
+  $('nowTitle').textContent = on ? it.title : '볼 자료를 골라 주세요';
+  ['shareBtn', 'fullBtn', 'nextBtn', 'stopBtn'].forEach(function (k) { $(k).disabled = !on; });
+  var o = $('openBtn'); o.style.display = on && it.url ? 'inline-flex' : 'none'; o.href = on && it.url ? it.url : '#';
+}
+function placeholder(title, text) {
+  $('phTitle').innerHTML = title; $('phText').innerHTML = text;
+  $('playerPlaceholder').classList.remove('sr');
+  $('playerPlaceholder').style.display = '';
+}
+function openItem(id, opts) {
+  var it = byId(id); if (!it) return;
+  opts = opts || {};
+  var box = $('playerBox'), iframe = $('videoIframe'), src = embedUrl(it.url), token = ++tuneToken;
+  clearTimeout(ltTimer);
+  box.classList.remove('is-live', 'is-tuning', 'show-lt', 'quiet');
+  box.classList.toggle('doc', it.type === 'pdf');
+  playingId = it.id;
+  setOnAir(it);
+  render();
+  history.replaceState(null, '', '#item=' + encodeURIComponent(it.id));
+  if (!opts.noScroll) box.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+  if (!src) {
+    iframe.src = 'about:blank';
+    placeholder('🎬 ' + esc(it.title) + '<br><em>자료 링크를 준비 중이에요</em>', '관리자가 시트의 <strong>url</strong> 칸에 구글 드라이브나 유튜브 주소를 넣으면 이 자리에서 바로 재생됩니다.');
+    return;
+  }
+  $('playerPlaceholder').style.display = 'none';
+  $('ltTitle').textContent = it.title;
+  var th = thumbUrl(it);
+  box.style.setProperty('--thumb', th ? 'url("' + th.replace(/["\\()]/g, '') + '")' : 'none');
+  iframe.src = src + (/youtube/.test(src) ? '&autoplay=1' : '');
+  iframe.title = it.title; iframe.removeAttribute('tabindex');
+  if (API_URL) api({ action: 'view', id: it.id }).then(function (r) { if (r.ok) { it.views = r.views; render(); stats(); } }).catch(function () {});
+  var goLive = function () {
+    if (token !== tuneToken) return;
+    box.classList.remove('is-tuning'); box.classList.add('is-live', 'show-lt');
+    ltTimer = setTimeout(function () { box.classList.add('quiet'); box.classList.remove('show-lt'); }, 4200);
+  };
+  if (reduceMotion) { goLive(); return; }
+  box.classList.add('is-tuning');
+  var DUR = 1300, start = performance.now();
+  (function frame(now) {
+    if (token !== tuneToken) return;
+    var t = Math.min(1, (now - start) / DUR), p = Math.round((1 - Math.pow(1 - t, 3)) * 100);
+    $('tuneWord').style.setProperty('--p', p + '%'); $('tuneBar').style.setProperty('--p', p + '%'); $('tuneNum').textContent = p;
+    if (t < 1) requestAnimationFrame(frame); else setTimeout(goLive, 220);
+  })(start);
+}
+function stopItem() {
+  tuneToken++; clearTimeout(ltTimer);
+  var box = $('playerBox');
+  box.classList.remove('is-tuning', 'is-live', 'show-lt', 'quiet', 'doc');
+  $('videoIframe').src = 'about:blank'; $('videoIframe').setAttribute('tabindex', '-1');
+  placeholder('보고 싶은 자료를 고르면,<br><em>여기서 바로 재생돼요</em>', '검색하거나 분류를 고른 뒤 카드의 <strong>[▶ 재생]</strong>을 누르세요. 처음이라면 <strong>에센셜 편</strong>부터 추천합니다.');
+  playingId = null; setOnAir(null); render();
+  history.replaceState(null, '', location.pathname + location.search);
+  if (document.fullscreenElement) document.exitFullscreen().catch(function () {});
+}
+function nextItem() {
+  var items = current(); if (!items.length) return;
+  var i = items.findIndex(function (d) { return String(d.id) === String(playingId); });
+  openItem(items[(i + 1) % items.length].id);
+}
+$('stopBtn').onclick = stopItem;
+$('nextBtn').onclick = nextItem;
+$('shareBtn').onclick = function () { var it = byId(playingId); if (it) copy(linkFor(it), it.title); };
+$('fullBtn').onclick = function () {
+  var box = $('playerBox'), req = box.requestFullscreen || box.webkitRequestFullscreen;
+  if (req) Promise.resolve(req.call(box)).catch(function () { window.toast('err', '전체 화면을 열 수 없어요', '이 브라우저에서는 지원하지 않습니다'); });
+};
+$('upList').addEventListener('click', function (e) { var b = e.target.closest('[data-open]'); if (b) openItem(b.getAttribute('data-open')); });
+
+function copy(text, what) {
+  var done = function () { window.toast('ok', '링크를 복사했어요', what ? what : text); };
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, function () { window.prompt('아래 주소를 복사하세요', text); });
+  else { window.prompt('아래 주소를 복사하세요', text); }
+}
+document.getElementById('grid').addEventListener('click', function (e) {
+  var o = e.target.closest('[data-open]'), s = e.target.closest('[data-share]');
+  if (o) openItem(o.getAttribute('data-open'));
+  if (s) { var it = byId(s.getAttribute('data-share')); if (it) copy(linkFor(it), it.title); }
+});
+document.getElementById('shareSite').onclick = function () { copy(location.origin + '/', 'G-ONE 쉽게 배우기'); };
+
+/* 검색 */
+var qt;
+document.getElementById('q').addEventListener('input', function (e) { clearTimeout(qt); qt = setTimeout(function () { state.q = e.target.value.trim(); render(); }, 150); });
+
+/* ================= #044 FAQ (ported: links filter the library) ================= */
+(function () {
+  var root = document.querySelector('.u044');
+  var items = Array.prototype.slice.call(root.querySelectorAll('.u044-it'));
+  var qs = items.map(function (it) { return it.querySelector('.u044-q'); });
+  var uid = 'u044-' + Math.random().toString(36).slice(2, 7);
+  items.forEach(function (it, i) {
+    var q = qs[i], body = it.querySelector('.u044-body');
+    q.id = uid + '-q' + i; body.id = uid + '-a' + i;
+    q.setAttribute('aria-controls', body.id); body.setAttribute('aria-labelledby', q.id);
+  });
+  function set(it, open) {
+    it.classList.toggle('open', open);
+    it.querySelector('.u044-q').setAttribute('aria-expanded', String(open));
+    it.querySelector('.u044-a a').tabIndex = open ? 0 : -1;
+  }
+  items.forEach(function (it, i) {
+    set(it, it.classList.contains('open'));
+    qs[i].addEventListener('click', function () {
+      var willOpen = !it.classList.contains('open');
+      items.forEach(function (o) { if (o !== it) set(o, false); });
+      set(it, willOpen);
+    });
+    qs[i].addEventListener('keydown', function (e) {
+      var n = e.key === 'ArrowDown' ? i + 1 : e.key === 'ArrowUp' ? i - 1 : e.key === 'Home' ? 0 : e.key === 'End' ? qs.length - 1 : -2;
+      if (n === -2) return;
+      e.preventDefault();
+      qs[(n + qs.length) % qs.length].focus();
+    });
+    it.querySelector('.u044-a a').addEventListener('click', function () {
+      var q = this.getAttribute('data-q') || '';
+      var box = document.getElementById('q'); box.value = q; state.q = q; tabsApi.selectById('all');
+    });
+  });
+})();
+
+/* ================= 관리자 등록 (?admin) ================= */
+if (/[?&]admin\b/.test(location.search)) document.getElementById('admin').classList.add('show');
+document.getElementById('addForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+  if (!API_URL) { window.toast('err', 'API 주소가 없어요', 'index.html의 API_URL을 먼저 설정해 주세요'); return; }
+  var fd = new FormData(e.target), item = {};
+  fd.forEach(function (v, k) { item[k] = v; });
+  var key = item.key; delete item.key;
+  var t = window.toast('wait', '시트에 저장하는 중…', item.title);
+  fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: 'add', key: key, item: item }) })
+    .then(function (r) { return r.json(); })
+    .then(function (res) {
+      if (!res.ok) throw new Error(res.error);
+      t.done('ok', '자료를 등록했어요', item.title);
+      e.target.reset(); return load().then(function () { tabsApi.counts(); render(); stats(); });
+    })
+    .catch(function (err) { t.close(); window.toast('err', '저장하지 못했어요', String(err.message || err)); });
+});
+
+/* ================= 시작 ================= */
+load().then(function () {
+  tabsApi.counts(); render(); stats();
+  var m = /#item=([^&]+)/.exec(location.hash);
+  if (m) openItem(decodeURIComponent(m[1]), { noScroll: false });
+});
+
+/* 메뉴 활성 표시 */
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.nav nav a'));
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (en) {
+      if (!en.isIntersecting) return;
+      links.forEach(function (a) { a.classList.toggle('on', a.getAttribute('href') === '#' + en.target.id); });
+    });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  ['start', 'library', 'faq'].forEach(function (id) { io.observe(document.getElementById(id)); });
+})();
+</script>
+</body>
+</html>

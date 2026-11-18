@@ -287,8 +287,71 @@ dialog[open]{animation:pageIn .35s ease both}
 .mfoot p{flex:1;margin:0;color:var(--muted);font-size:14px;min-width:220px}
 
 /* admin */
-.admin{padding:24px;display:none}
-.admin.show{display:block}
+.nav nav a.adm-only{display:none}
+body.is-admin .nav nav a.adm-only{display:inline-block}
+body.editing [data-edit]{outline:1.5px dashed rgba(59,99,246,.45);outline-offset:3px;border-radius:4px}
+body.editing [data-edit]:hover{outline-color:var(--primary);outline-style:solid}
+[data-edit].editing{outline:2px solid var(--primary)!important;outline-offset:4px;background:#fff!important;-webkit-background-clip:border-box!important;background-clip:border-box!important;color:var(--ink)!important;-webkit-text-fill-color:var(--ink);cursor:text;box-shadow:0 0 0 6px #fff}
+.edpen{position:fixed;z-index:80;width:32px;height:32px;padding:0;border-radius:50%;border:2px solid #fff;background:var(--primary);color:#fff;font-size:14px;display:grid;place-items:center;box-shadow:0 8px 18px -6px rgba(59,99,246,.75);cursor:pointer}
+.edpen:hover{transform:scale(1.08)}
+.edpen[hidden],.edbar[hidden],.admbar[hidden]{display:none!important}
+.edbar{position:fixed;z-index:81;display:flex;gap:6px;padding:6px;border-radius:14px;background:#fff;box-shadow:0 14px 34px rgba(36,50,74,.25)}
+.edbar button{height:34px;padding:0 12px;border:0;border-radius:10px;font:inherit;font-size:13px;font-weight:700;background:var(--ux-surface-2);color:var(--ink);cursor:pointer;white-space:nowrap}
+.edbar button small{font-size:10.5px;opacity:.6;margin-left:2px}
+.edbar #edSave{background:var(--primary);color:#fff}
+.edbar #edReset{color:var(--muted)}
+.admbar{position:fixed;z-index:70;left:50%;bottom:18px;transform:translateX(-50%);display:flex;align-items:center;gap:10px;padding:8px 8px 8px 16px;border-radius:999px;background:rgba(36,50,74,.94);color:#fff;font-size:13.5px;box-shadow:0 14px 34px rgba(36,50,74,.35);white-space:nowrap}
+.admbar button{height:32px;padding:0 12px;border:0;border-radius:999px;font:inherit;font-size:13px;font-weight:700;background:rgba(255,255,255,.14);color:#fff;cursor:pointer}
+.admbar button:hover{background:rgba(255,255,255,.24)}
+.admdot{width:8px;height:8px;border-radius:50%;background:#34d399;box-shadow:0 0 0 3px rgba(52,211,153,.25)}
+.admsw{display:flex;align-items:center;gap:6px;cursor:pointer}
+.gear{width:34px;height:34px;flex:none;padding:0;border:0;border-radius:50%;display:grid;place-items:center;background:transparent;color:var(--muted);cursor:pointer;transition:background .2s,color .2s,transform .4s var(--ux-ease)}
+.gear svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.gear:hover{background:rgba(255,255,255,.8);color:var(--primary);transform:rotate(45deg)}
+.gear:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+body.is-admin .gear{color:#fff;background:var(--primary)}
+body.is-admin footer{padding-bottom:110px}
+.adm-tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.adm-tools input{height:48px;border-radius:999px;border:1px solid var(--hairline);padding:0 18px;font:inherit;font-size:14.5px;min-width:220px;flex:1;max-width:360px;background:rgba(255,255,255,.9)}
+.adm-list{padding:8px;display:flex;flex-direction:column;gap:6px;border-radius:var(--r-lg)}
+.adm-row{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.85);box-shadow:0 0 0 1px var(--hairline)}
+.adm-row.off{background:rgba(244,247,255,.6)}
+.adm-row.off .adm-main b{color:var(--muted)}
+.adm-ord{display:flex;flex-direction:column;align-items:center;gap:2px}
+.adm-ord button{width:28px;height:22px;border:0;border-radius:7px;background:var(--ux-surface-2);cursor:pointer;font-size:10px;color:var(--ink)}
+.adm-ord button:disabled{opacity:.3;cursor:default}
+.adm-ord span{font-weight:800;font-size:12.5px;color:var(--muted)}
+.adm-main{min-width:0}
+.adm-main b{display:block;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.adm-main small{font-size:12.5px;color:var(--muted)}
+.adm-main .warn{color:var(--ux-danger);font-weight:700}
+.adm-main .tag{display:inline-block;margin-right:4px;padding:1px 7px;border-radius:6px;font-size:11px;font-weight:800;background:var(--ux-accent-soft);color:var(--primary)}
+.adm-main .tag.off{background:rgba(229,72,107,.12);color:var(--ux-danger)}
+.adm-act{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.adm-tg{display:flex;align-items:center;gap:4px;font-size:13px;font-weight:650;white-space:nowrap;cursor:pointer}
+.mini.danger{background:rgba(229,72,107,.1);color:var(--ux-danger)}
+.adm-empty{padding:18px;color:var(--muted);text-align:center;margin:0}
+.adm-text{display:grid;grid-template-columns:minmax(120px,190px) 1fr auto;gap:12px;align-items:center;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.85);box-shadow:0 0 0 1px var(--hairline)}
+.adm-text code{font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis}
+.adm-text span{font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+dialog.adlg{width:min(640px,calc(100vw - 32px));background:#fff;border-radius:var(--r-lg);backdrop-filter:none}
+.adlg form{padding:22px 22px 18px}
+.adlg h3{margin:0 0 6px;font-size:20px;letter-spacing:-.02em}
+.adlg-sub{margin:0 0 14px;color:var(--muted);font-size:14px}
+.adlg-err{min-height:20px;margin:10px 0 0;color:var(--ux-danger);font-size:13.5px;font-weight:650}
+.adlg-foot{display:flex;justify-content:flex-end;gap:8px;margin-top:6px}
+.adlg-checks{display:flex;gap:16px;flex-wrap:wrap}
+.adlg-checks label{flex-direction:row!important;align-items:center;gap:6px!important;color:var(--ink)!important}
+.adlg-checks input{height:auto!important;width:16px}
+@media (max-width:760px){
+  .adm-row{grid-template-columns:auto 1fr}
+  .adm-act{grid-column:1/-1;justify-content:flex-start}
+  .adm-text{grid-template-columns:1fr auto}
+  .adm-text code{grid-column:1/-1}
+}
+@media (max-width:520px){
+  .admbar{left:8px;right:8px;transform:none;bottom:8px;flex-wrap:wrap;border-radius:18px;white-space:normal;justify-content:center}
+}
 .form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .form label{display:flex;flex-direction:column;gap:5px;font-size:13.5px;font-weight:700;color:var(--muted)}
 .form .full{grid-column:1/-1}
@@ -353,13 +416,15 @@ footer{text-align:center;color:var(--muted);font-size:13.5px;padding:40px 0 60px
 
 <header>
   <div class="wrap nav">
-    <a class="brand" href="#top"><span class="mark">G1</span><span>G-ONE 쉽게 배우기<small>교사 업무 효율화 지원단</small></span></a>
+    <a class="brand" href="#top"><span class="mark">G1</span><span><span data-edit="brand.title">G-ONE 쉽게 배우기</span><small data-edit="brand.sub">교사 업무 효율화 지원단</small></span></a>
     <nav aria-label="주 메뉴" role="tablist">
-      <a href="#start" class="on" role="tab" data-tab="start" aria-selected="true">처음이라면</a>
-      <a href="#library" role="tab" data-tab="library" aria-selected="false">자료실</a>
-      <a href="#faq" role="tab" data-tab="faq" aria-selected="false">자주 묻는 질문</a>
+      <a href="#start" class="on" role="tab" data-tab="start" aria-selected="true" data-edit="nav.start">처음이라면</a>
+      <a href="#library" role="tab" data-tab="library" aria-selected="false" data-edit="nav.library">자료실</a>
+      <a href="#faq" role="tab" data-tab="faq" aria-selected="false" data-edit="nav.faq">자주 묻는 질문</a>
+      <a href="#admin" role="tab" data-tab="admin" aria-selected="false" class="adm-only">🛠 관리</a>
     </nav>
     <span class="lamp" id="onAirLamp" aria-live="polite"><i aria-hidden="true"></i><span id="onAirText">STANDBY</span></span>
+    <button class="gear" type="button" id="adminLink" aria-label="관리자 로그인" title="관리자"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
   </div>
 </header>
 
@@ -367,45 +432,45 @@ footer{text-align:center;color:var(--muted);font-size:13.5px;padding:40px 0 60px
   <!-- HERO -->
   <section class="hero" data-panel="start">
     <div>
-      <span class="eyebrow">✨ 「교사 행정업무 Zero-ON」 교사 업무 효율화 지원단</span>
-      <h1>G-ONE, 어렵지 않아요<br><span class="grad">2분 영상이면 바로 씁니다</span></h1>
-      <p class="lead">GOE메신저에 익숙한 선생님도 <strong>부담 없이 옮겨 올 수 있도록</strong>, 일정과 브리티 메신저의 기본 기능을 짧은 영상과 PDF 안내서로 모았습니다.</p>
+      <span class="eyebrow" data-edit="hero.eyebrow">✨ 「교사 행정업무 Zero-ON」 교사 업무 효율화 지원단</span>
+      <h1><span data-edit="hero.title1">G-ONE, 어렵지 않아요</span><br><span class="grad" data-edit="hero.title2">2분 영상이면 바로 씁니다</span></h1>
+      <p class="lead" data-edit="hero.lead">GOE메신저에 익숙한 선생님도 <strong>부담 없이 옮겨 올 수 있도록</strong>, 일정과 브리티 메신저의 기본 기능을 짧은 영상과 PDF 안내서로 모았습니다.</p>
       <div class="cta">
-        <a class="btn p" href="#library" id="ctaPick">▶ 에센셜 영상부터 보기</a>
-        <a class="btn s" href="#library">📚 전체 자료 보기</a>
+        <a class="btn p" href="#library" id="ctaPick" data-edit="hero.cta1">▶ 에센셜 영상부터 보기</a>
+        <a class="btn s" href="#library" data-edit="hero.cta2">📚 전체 자료 보기</a>
       </div>
       <div class="stats" aria-live="polite">
-        <div class="stat"><b id="stVideo">-</b><span>안내 영상</span></div>
-        <div class="stat"><b id="stPdf">-</b><span>PDF 안내서</span></div>
-        <div class="stat"><b id="stViews">-</b><span>함께 본 횟수</span></div>
+        <div class="stat"><b id="stVideo">-</b><span data-edit="stat.video">안내 영상</span></div>
+        <div class="stat"><b id="stPdf">-</b><span data-edit="stat.pdf">PDF 안내서</span></div>
+        <div class="stat"><b id="stViews">-</b><span data-edit="stat.views">함께 본 횟수</span></div>
       </div>
     </div>
     <div class="glass pick">
-      <span class="lab">TODAY'S PICK</span>
+      <span class="lab" data-edit="pick.label">TODAY'S PICK</span>
       <h3 id="pickTitle">브리티 메신저 에센셜 편</h3>
       <p id="pickDesc">GOE메신저 쓰던 선생님을 위한 빠른 전환 가이드</p>
-      <button class="poster" type="button" id="pickPlay" aria-label="추천 영상 재생"><span class="ttl">🚀 이것만 보면 바로 씁니다</span><span class="play"></span><span class="dur" id="pickDur">1:30</span></button>
+      <button class="poster" type="button" id="pickPlay" aria-label="추천 영상 재생"><span class="ttl" data-edit="pick.poster">🚀 이것만 보면 바로 씁니다</span><span class="play"></span><span class="dur" id="pickDur">1:30</span></button>
       <div class="steps3">
-        <div><b>1주차</b>자동 로그인 + 쪽지</div>
-        <div><b>2주차</b>조직도 + 대화</div>
-        <div><b>3주차</b>워크스페이스 도전</div>
+        <div data-edit="pick.step1"><b>1주차</b>자동 로그인 + 쪽지</div>
+        <div data-edit="pick.step2"><b>2주차</b>조직도 + 대화</div>
+        <div data-edit="pick.step3"><b>3주차</b>워크스페이스 도전</div>
       </div>
     </div>
   </section>
 
   <!-- START -->
   <section class="blk" id="start" data-panel="start">
-    <div class="sh"><span class="eb">START HERE</span><h2>🧭 처음이라면 이 순서로</h2><p>새로 배울 건 많지 않아요. <strong>늘 쓰던 기능이 자리만 옮겼을 뿐</strong>입니다.</p></div>
+    <div class="sh"><span class="eb" data-edit="start.eb">START HERE</span><h2 data-edit="start.title">🧭 처음이라면 이 순서로</h2><p data-edit="start.text">새로 배울 건 많지 않아요. <strong>늘 쓰던 기능이 자리만 옮겼을 뿐</strong>입니다.</p></div>
     <div class="feats">
-      <article class="glass feat"><div class="em">🔐</div><h3>자동 로그인부터</h3><p>[환경설정] → [일반]에서 <strong>스위치 두 개만 켜면</strong> PC를 켤 때 바로 로그인돼요.</p></article>
-      <article class="glass feat"><div class="em">✉️</div><h3>쪽지는 그대로</h3><p>수신확인과 회수(발신취소)까지 <strong>GOE메신저와 같은 방식</strong>으로 씁니다.</p></article>
-      <article class="glass feat"><div class="em">📅</div><h3>일정은 함께</h3><p>학교 캘린더에 <strong>기관 공개로 등록</strong>하면 모든 선생님이 함께 봐요.</p></article>
+      <article class="glass feat"><div class="em" data-edit="feat1.icon">🔐</div><h3 data-edit="feat1.title">자동 로그인부터</h3><p data-edit="feat1.text">[환경설정] → [일반]에서 <strong>스위치 두 개만 켜면</strong> PC를 켤 때 바로 로그인돼요.</p></article>
+      <article class="glass feat"><div class="em" data-edit="feat2.icon">✉️</div><h3 data-edit="feat2.title">쪽지는 그대로</h3><p data-edit="feat2.text">수신확인과 회수(발신취소)까지 <strong>GOE메신저와 같은 방식</strong>으로 씁니다.</p></article>
+      <article class="glass feat"><div class="em" data-edit="feat3.icon">📅</div><h3 data-edit="feat3.title">일정은 함께</h3><p data-edit="feat3.text">학교 캘린더에 <strong>기관 공개로 등록</strong>하면 모든 선생님이 함께 봐요.</p></article>
     </div>
   </section>
 
   <!-- LIBRARY -->
   <section class="blk" id="library" data-panel="library" hidden>
-    <div class="sh"><span class="eb">LIBRARY</span><h2>📚 자료실</h2><p>보고 싶은 주제를 고르거나 검색해 보세요. 카드를 누르면 바로 재생됩니다.</p></div>
+    <div class="sh"><span class="eb" data-edit="library.eb">LIBRARY</span><h2 data-edit="library.title">📚 자료실</h2><p data-edit="library.text">보고 싶은 주제를 고르거나 검색해 보세요. 카드를 누르면 바로 재생됩니다.</p></div>
     <div class="demo" id="demo">지금은 <strong>미리보기용 예시 데이터</strong>입니다. index.html의 API_URL에 Apps Script 웹앱 주소를 넣으면 구글 시트 자료가 표시됩니다.</div>
     <div class="tool">
       <label class="search"><span class="sr">자료 검색</span>
@@ -466,55 +531,97 @@ footer{text-align:center;color:var(--muted);font-size:13.5px;padding:40px 0 60px
 
   <!-- FAQ -->
   <section class="blk" id="faq" data-panel="faq" hidden>
-    <div class="sh"><span class="eb">FAQ</span><h2>💬 자주 묻는 질문</h2><p>선생님들이 가장 많이 물어보신 내용입니다.</p></div>
+    <div class="sh"><span class="eb" data-edit="faq.eb">FAQ</span><h2 data-edit="faq.title">💬 자주 묻는 질문</h2><p data-edit="faq.text">선생님들이 가장 많이 물어보신 내용입니다.</p></div>
     <div class="faqgrid">
       <!-- Lucian UX/UI Prompt #044 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#044 -->
       <div class="ux u044">
         <div class="u044-it open">
-          <button class="u044-q" type="button" aria-expanded="true"><span class="u044-n">01</span><span class="u044-t">브리티 메신저도 자동 로그인이 되나요?</span><span class="u044-pm" aria-hidden="true"></span></button>
-          <div class="u044-body" role="region"><div><div class="u044-a"><p>네! 왼쪽 아래 톱니 [환경설정] → [일반]에서 ‘PC 실행 시 자동 실행’과 ‘메신저 실행 시 자동 로그인’을 켜고 [저장]하면 됩니다.</p><a href="#library" data-q="자동 로그인">자동 로그인 영상 보기 <i aria-hidden="true">→</i></a></div></div></div>
+          <button class="u044-q" type="button" aria-expanded="true"><span class="u044-n">01</span><span class="u044-t" data-edit="faq1.q">브리티 메신저도 자동 로그인이 되나요?</span><span class="u044-pm" aria-hidden="true"></span></button>
+          <div class="u044-body" role="region"><div><div class="u044-a"><p data-edit="faq1.a">네! 왼쪽 아래 톱니 [환경설정] → [일반]에서 ‘PC 실행 시 자동 실행’과 ‘메신저 실행 시 자동 로그인’을 켜고 [저장]하면 됩니다.</p><a href="#library" data-q="자동 로그인"><span data-edit="faq1.link">자동 로그인 영상 보기</span> <i aria-hidden="true">→</i></a></div></div></div>
         </div>
         <div class="u044-it">
-          <button class="u044-q" type="button" aria-expanded="false"><span class="u044-n">02</span><span class="u044-t">GOE메신저의 쪽지 회수는 어떻게 하나요?</span><span class="u044-pm" aria-hidden="true"></span></button>
-          <div class="u044-body" role="region"><div><div class="u044-a"><p>보낸 쪽지의 [전체보기]에서 받는 사람을 체크하고 [발신취소]를 누르면, 아직 읽지 않은 사람에게서 회수됩니다.</p><a href="#library" data-q="쪽지">쪽지 영상 보기 <i aria-hidden="true">→</i></a></div></div></div>
+          <button class="u044-q" type="button" aria-expanded="false"><span class="u044-n">02</span><span class="u044-t" data-edit="faq2.q">GOE메신저의 쪽지 회수는 어떻게 하나요?</span><span class="u044-pm" aria-hidden="true"></span></button>
+          <div class="u044-body" role="region"><div><div class="u044-a"><p data-edit="faq2.a">보낸 쪽지의 [전체보기]에서 받는 사람을 체크하고 [발신취소]를 누르면, 아직 읽지 않은 사람에게서 회수됩니다.</p><a href="#library" data-q="쪽지"><span data-edit="faq2.link">쪽지 영상 보기</span> <i aria-hidden="true">→</i></a></div></div></div>
         </div>
         <div class="u044-it">
-          <button class="u044-q" type="button" aria-expanded="false"><span class="u044-n">03</span><span class="u044-t">학교 전체 일정은 어떻게 공유하나요?</span><span class="u044-pm" aria-hidden="true"></span></button>
-          <div class="u044-body" role="region"><div><div class="u044-a"><p>일정을 등록할 때 공개 범위를 [기관 공개]로 고르고 학교 캘린더를 선택하세요. 참석자를 넣으면 그 선생님 캘린더에도 함께 들어갑니다.</p><a href="#library" data-q="일정">일정 영상 보기 <i aria-hidden="true">→</i></a></div></div></div>
+          <button class="u044-q" type="button" aria-expanded="false"><span class="u044-n">03</span><span class="u044-t" data-edit="faq3.q">학교 전체 일정은 어떻게 공유하나요?</span><span class="u044-pm" aria-hidden="true"></span></button>
+          <div class="u044-body" role="region"><div><div class="u044-a"><p data-edit="faq3.a">일정을 등록할 때 공개 범위를 [기관 공개]로 고르고 학교 캘린더를 선택하세요. 참석자를 넣으면 그 선생님 캘린더에도 함께 들어갑니다.</p><a href="#library" data-q="일정"><span data-edit="faq3.link">일정 영상 보기</span> <i aria-hidden="true">→</i></a></div></div></div>
         </div>
         <div class="u044-it">
-          <button class="u044-q" type="button" aria-expanded="false"><span class="u044-n">04</span><span class="u044-t">메시지를 쓰다 줄을 바꾸고 싶어요.</span><span class="u044-pm" aria-hidden="true"></span></button>
-          <div class="u044-body" role="region"><div><div class="u044-a"><p>[환경설정] → [대화·워크스페이스]에서 전송 방식을 ‘Shift/Alt+Enter 또는 전송 버튼’으로 바꾸면 Enter로 줄을 바꿀 수 있어요.</p><a href="#library" data-q="환경설정">환경설정 영상 보기 <i aria-hidden="true">→</i></a></div></div></div>
+          <button class="u044-q" type="button" aria-expanded="false"><span class="u044-n">04</span><span class="u044-t" data-edit="faq4.q">메시지를 쓰다 줄을 바꾸고 싶어요.</span><span class="u044-pm" aria-hidden="true"></span></button>
+          <div class="u044-body" role="region"><div><div class="u044-a"><p data-edit="faq4.a">[환경설정] → [대화·워크스페이스]에서 전송 방식을 ‘Shift/Alt+Enter 또는 전송 버튼’으로 바꾸면 Enter로 줄을 바꿀 수 있어요.</p><a href="#library" data-q="환경설정"><span data-edit="faq4.link">환경설정 영상 보기</span> <i aria-hidden="true">→</i></a></div></div></div>
         </div>
       </div>
       <div class="glass help">
-        <h3>🙋 더 궁금한 점이 있으신가요?</h3>
-        <p>영상과 안내서로 해결되지 않는 부분은 <strong>교사 업무 효율화 지원단</strong>에 메신저로 편하게 물어봐 주세요. 자주 나오는 질문은 이곳에 계속 추가하겠습니다.</p>
+        <h3 data-edit="help.title">🙋 더 궁금한 점이 있으신가요?</h3>
+        <p data-edit="help.text">영상과 안내서로 해결되지 않는 부분은 <strong>교사 업무 효율화 지원단</strong>에 메신저로 편하게 물어봐 주세요. 자주 나오는 질문은 이곳에 계속 추가하겠습니다.</p>
         <button class="btn s" type="button" id="shareSite">🔗 이 사이트 주소 복사</button>
       </div>
     </div>
   </section>
 
-  <!-- ADMIN (?admin 으로 열기) -->
-  <section class="blk">
-    <div class="glass admin" id="admin">
-      <div class="sh"><span class="eb">ADMIN</span><h2>🛠️ 자료 등록</h2><p>구글 시트에 바로 저장됩니다. 관리자 키는 구글 시트 ‘설정’ 시트의 adminPassword 값과 같아야 해요.</p></div>
-      <form class="form" id="addForm">
-        <label>제목<input name="title" required placeholder="예: 브리티 메신저 4편 쪽지"></label>
-        <label>분류<select name="category"><option value="messenger">브리티 메신저</option><option value="calendar">G-ONE 일정</option><option value="guide">안내서</option><option value="etc">기타</option></select></label>
-        <label>형식<select name="type"><option value="video">영상</option><option value="pdf">PDF</option><option value="link">링크</option></select></label>
-        <label>길이/분량<input name="duration" placeholder="예: 1:30 또는 7쪽"></label>
-        <label class="full">자료 주소 (구글 드라이브 공유 링크 또는 유튜브)<input name="url" placeholder="https://drive.google.com/file/d/…/view"></label>
-        <label class="full">설명<textarea name="description" placeholder="한두 문장으로 소개해 주세요"></textarea></label>
-        <label>태그 (쉼표로 구분)<input name="tags" placeholder="자동 로그인, 쪽지"></label>
-        <label>관리자 키<input name="key" type="password" required autocomplete="off"></label>
-        <div class="full"><button class="btn p" type="submit">시트에 저장</button></div>
-      </form>
+  <!-- ADMIN (관리자 로그인 후 상단 '🛠 관리' 탭) -->
+  <section class="blk" id="admin" data-panel="admin" hidden>
+    <div class="sh"><span class="eb">ADMIN</span><h2>🛠 콘텐츠 관리</h2><p>자료를 추가·수정·숨기기·삭제하고 순서를 바꿉니다. 바꾼 내용은 구글 시트에 <strong>바로 저장</strong>돼요.</p></div>
+    <div class="adm-tools">
+      <button class="btn p" type="button" id="admAdd">＋ 새 자료</button>
+      <button class="btn s" type="button" id="admReload">↻ 새로 고침</button>
+      <input type="search" id="admQ" placeholder="제목·태그로 찾기" aria-label="관리 목록 검색">
     </div>
+    <div class="glass adm-list" id="admList"><p class="adm-empty">불러오는 중…</p></div>
+    <div class="sh" style="margin-top:40px"><span class="eb">TEXT</span><h2>✏️ 고친 사이트 문구</h2><p>연필로 고친 문구 목록입니다. <strong>[기본값]</strong>을 누르면 처음 문구로 돌아가요.</p></div>
+    <div class="glass adm-list" id="admTexts"><p class="adm-empty">아직 고친 문구가 없어요.</p></div>
   </section>
 </main>
 
-<footer>© 2026 「교사 행정업무 Zero-ON」 교사 업무 효율화 지원단 · 선생님이 수업과 아이들에게 더 집중할 수 있도록</footer>
+<footer><span data-edit="footer">© 2026 「교사 행정업무 Zero-ON」 교사 업무 효율화 지원단 · 선생님이 수업과 아이들에게 더 집중할 수 있도록</span></footer>
+
+<!-- 관리자 도구 -->
+<div class="admbar" id="admBar" hidden>
+  <span class="admdot" aria-hidden="true"></span><b>관리자 모드</b>
+  <label class="admsw"><input type="checkbox" id="admEdit" checked> 연필로 문구 고치기</label>
+  <button type="button" id="admGo">🛠 콘텐츠 관리</button>
+  <button type="button" id="admOut">로그아웃</button>
+</div>
+<button class="edpen" id="edPen" type="button" hidden aria-label="이 문구 고치기" title="이 문구 고치기">✏️</button>
+<div class="edbar" id="edBar" hidden role="toolbar" aria-label="문구 고치기">
+  <button type="button" id="edB" title="굵게 (Ctrl+B)"><b>B</b></button>
+  <button type="button" id="edSave">저장 <small>Enter</small></button>
+  <button type="button" id="edCancel">취소 <small>Esc</small></button>
+  <button type="button" id="edReset" title="처음 문구로 되돌리기">기본값</button>
+</div>
+<dialog class="adlg" id="loginDlg" aria-labelledby="loginTtl">
+  <form method="dialog" id="loginForm">
+    <h3 id="loginTtl">🔐 관리자 로그인</h3>
+    <p class="adlg-sub">구글 시트 ‘설정’ 시트의 <strong>adminPassword</strong> 값을 입력하세요.</p>
+    <div class="form"><label class="full">비밀번호<input type="password" id="loginPw" autocomplete="current-password" required></label></div>
+    <p class="adlg-err" id="loginErr" role="alert"></p>
+    <div class="adlg-foot"><button class="btn s" type="button" id="loginCancel">취소</button><button class="btn p" type="submit">로그인</button></div>
+  </form>
+</dialog>
+<dialog class="adlg" id="itemDlg" aria-labelledby="itemTtl">
+  <form method="dialog" id="itemForm">
+    <h3 id="itemTtl">자료 수정</h3>
+    <div class="form">
+      <label class="full">제목<input name="title" required placeholder="예: 브리티 메신저 4편 · 쪽지"></label>
+      <label>분류<select name="category"></select></label>
+      <label>형식<select name="type"><option value="video">영상</option><option value="pdf">PDF</option><option value="link">링크</option></select></label>
+      <label>길이/분량<input name="duration" placeholder="예: 1:30 또는 7쪽"></label>
+      <label>id <input name="id" placeholder="비우면 자동" pattern="[A-Za-z0-9_\-]{1,30}"></label>
+      <label class="full">자료 주소 (구글 드라이브 공유 링크 또는 유튜브)<input name="url" placeholder="https://drive.google.com/file/d/…/view"></label>
+      <label class="full">설명<textarea name="description" placeholder="한두 문장으로 소개해 주세요"></textarea></label>
+      <label>태그 (쉼표로 구분)<input name="tags" placeholder="자동 로그인, 쪽지"></label>
+      <label>썸네일 주소 (선택)<input name="thumbnail" placeholder="비우면 자동"></label>
+      <div class="full adlg-checks">
+        <label><input type="checkbox" name="visible" checked> 사이트에 공개</label>
+        <label><input type="checkbox" name="featured"> 추천(TODAY'S PICK)</label>
+        <label><input type="checkbox" name="isNew"> NEW 표시</label>
+      </div>
+    </div>
+    <p class="adlg-err" id="itemErr" role="alert"></p>
+    <div class="adlg-foot"><button class="btn s" type="button" id="itemCancel">취소</button><button class="btn p" type="submit" id="itemSave">저장</button></div>
+  </form>
+</dialog>
 
 
 
@@ -657,6 +764,7 @@ function load() {
   return api({ action: 'list' }).then(function (res) {
     if (!res.ok) throw new Error(res.error || '불러오기 실패');
     DATA = res.items;
+    if (res.content) applyContent(res.content);
   }).catch(function (e) {
     window.toast('err', '자료를 불러오지 못했어요', '잠시 후 다시 시도해 주세요', { label: '다시 시도', run: function () { load().then(render); } });
     DATA = SAMPLE.slice();
@@ -957,32 +1065,13 @@ document.getElementById('q').addEventListener('input', function (e) { clearTimeo
   });
 })();
 
-/* ================= 관리자 등록 (?admin) ================= */
-if (/[?&]admin\b/.test(location.search)) document.getElementById('admin').classList.add('show');
-document.getElementById('addForm').addEventListener('submit', function (e) {
-  e.preventDefault();
-  if (!API_URL) { window.toast('err', 'API 주소가 없어요', 'index.html의 API_URL을 먼저 설정해 주세요'); return; }
-  var fd = new FormData(e.target), item = {};
-  fd.forEach(function (v, k) { item[k] = v; });
-  var key = item.key; delete item.key;
-  var t = window.toast('wait', '시트에 저장하는 중…', item.title);
-  fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: 'add', key: key, item: item }) })
-    .then(function (r) { return r.json(); })
-    .then(function (res) {
-      if (!res.ok) throw new Error(res.error);
-      t.done('ok', '자료를 등록했어요', item.title);
-      e.target.reset(); return load().then(function () { tabsApi.counts(); render(); stats(); });
-    })
-    .catch(function (err) { t.close(); window.toast('err', '저장하지 못했어요', String(err.message || err)); });
-});
-
 /* ================= 시작 ================= */
 /* ================= 상단 탭 (처음이라면 · 자료실 · 자주 묻는 질문) ================= */
 var LAST_KEY = 'gone_last_v1';
 var panelNow = 'start';
 function showPanel(name, opts) {
   opts = opts || {};
-  if (['start', 'library', 'faq'].indexOf(name) < 0) name = 'start';
+  if (['start', 'library', 'faq', 'admin'].indexOf(name) < 0 || (name === 'admin' && !ADM.key)) name = 'start';
   var changed = name !== panelNow; panelNow = name;
   Array.prototype.forEach.call(document.querySelectorAll('[data-panel]'), function (el) { el.hidden = el.getAttribute('data-panel') !== name; });
   Array.prototype.forEach.call(document.querySelectorAll('.nav nav a'), function (a) {
@@ -990,6 +1079,7 @@ function showPanel(name, opts) {
     a.classList.toggle('on', on); a.setAttribute('aria-selected', String(on));
   });
   if (name === 'library') tabsApi.counts(); /* 숨겨져 있던 알약 위치 다시 맞춤 */
+  if (name === 'admin' && changed) admRefresh();
   if (opts.hash !== false && !(name === 'library' && playingId)) history.replaceState(null, '', name === 'start' ? location.pathname + location.search : '#' + name);
   if (changed && opts.scroll !== false) window.scrollTo(0, 0);
 }
@@ -1008,13 +1098,299 @@ Array.prototype.forEach.call(document.querySelectorAll('.cta a[href="#library"]'
 function bool(v) { return v === true || String(v).toUpperCase() === 'TRUE'; }
 window.addEventListener('hashchange', function () {
   var h = location.hash.replace('#', '');
-  if (h === 'start' || h === 'library' || h === 'faq') showPanel(h, { hash: false });
+  if (h === 'start' || h === 'library' || h === 'faq' || h === 'admin') showPanel(h, { hash: false });
 });
+
+/* ================= 사이트 문구 (연필로 고친 글은 시트 content 탭에 저장) ================= */
+var TEXT_KEY = 'gone_text_v1', SITE_TEXT = {};
+Array.prototype.forEach.call(document.querySelectorAll('[data-edit]'), function (el) { el.setAttribute('data-def', el.innerHTML); });
+function cleanHtml(html) {
+  var tpl = document.createElement('template'); tpl.innerHTML = String(html == null ? '' : html);
+  (function walk(n) {
+    Array.prototype.slice.call(n.childNodes).forEach(function (c) {
+      if (c.nodeType === 3) return;
+      if (c.nodeType !== 1) { c.parentNode.removeChild(c); return; }
+      var t = c.tagName.toLowerCase();
+      if (t === 'b') { var st = document.createElement('strong'); while (c.firstChild) st.appendChild(c.firstChild); c.parentNode.replaceChild(st, c); walk(st); return; }
+      if (t === 'strong' || t === 'em' || t === 'br') { while (c.attributes.length) c.removeAttribute(c.attributes[0].name); walk(c); return; }
+      var frag = document.createDocumentFragment();
+      if ((t === 'div' || t === 'p') && c.previousSibling) frag.appendChild(document.createElement('br'));
+      walk(c); while (c.firstChild) frag.appendChild(c.firstChild);
+      c.parentNode.replaceChild(frag, c);
+    });
+  })(tpl.content);
+  var box = document.createElement('div'); box.appendChild(tpl.content);
+  return box.innerHTML.replace(/&nbsp;/g, ' ').replace(/^(\s|<br>)+|(\s|<br>)+$/g, '');
+}
+function applyContent(map) {
+  SITE_TEXT = map || {};
+  try { localStorage.setItem(TEXT_KEY, JSON.stringify(SITE_TEXT)); } catch (e) {}
+  Array.prototype.forEach.call(document.querySelectorAll('[data-edit]'), function (el) {
+    if (el === ED.el) return;
+    var v = SITE_TEXT[el.getAttribute('data-edit')];
+    el.innerHTML = v ? cleanHtml(v) : el.getAttribute('data-def');
+  });
+  if (panelNow === 'admin') renderTexts();
+}
+var ED = { el: null };
+try { var cachedText = JSON.parse(localStorage.getItem(TEXT_KEY) || 'null'); if (cachedText) applyContent(cachedText); } catch (e) {}
+
+/* ================= 관리자 ================= */
+var ADM_KEY = 'gone_admin_v1';
+var ADM = { key: null };
+try { ADM.key = sessionStorage.getItem(ADM_KEY); } catch (e) {}
+function admApi(action, extra) {
+  var body = { action: action, key: ADM.key };
+  Object.keys(extra || {}).forEach(function (k) { body[k] = extra[k]; });
+  return fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) })
+    .then(function (r) { return r.json(); })
+    .then(function (res) {
+      if (!res.ok) {
+        if (/비밀번호/.test(res.error || '') && action !== 'login') { admLogout(); window.toast('err', '다시 로그인해 주세요', res.error); }
+        throw new Error(res.error || '요청이 실패했어요');
+      }
+      return res;
+    });
+}
+function admErr(err) { window.toast('err', '저장하지 못했어요', String(err && err.message || err)); }
+function admEnter() {
+  document.body.classList.add('is-admin');
+  $('admBar').hidden = false;
+  setEditing($('admEdit').checked);
+}
+function admLogout() {
+  if (ED.el) edCancel();
+  ADM.key = null; try { sessionStorage.removeItem(ADM_KEY); } catch (e) {}
+  document.body.classList.remove('is-admin'); setEditing(false); $('admBar').hidden = true;
+  if (panelNow === 'admin') showPanel('start');
+}
+function admLogin() {
+  if (ADM.key) { admEnter(); showPanel('admin'); return; }
+  var d = $('loginDlg'); $('loginErr').textContent = ''; $('loginPw').value = '';
+  if (d.showModal) d.showModal(); $('loginPw').focus();
+}
+$('adminLink').onclick = admLogin;
+$('loginCancel').onclick = function () { $('loginDlg').close(); };
+$('loginForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+  var pw = $('loginPw').value.trim(); if (!pw) return;
+  ADM.key = pw; $('loginErr').textContent = '확인하는 중…';
+  admApi('login').then(function () {
+    try { sessionStorage.setItem(ADM_KEY, pw); } catch (er) {}
+    $('loginDlg').close(); admEnter();
+    window.toast('ok', '관리자 모드를 켰어요', '연필(✏️)이 보이는 글자를 눌러 고치세요');
+  }).catch(function (err) { ADM.key = null; $('loginErr').textContent = String(err.message || err); });
+});
+$('admOut').onclick = function () { admLogout(); window.toast('ok', '로그아웃했어요', ''); };
+$('admGo').onclick = function () { showPanel('admin'); };
+$('admEdit').onchange = function () { setEditing(this.checked); };
+
+/* ---------- 연필로 문구 고치기 ---------- */
+var pen = $('edPen'), edBar = $('edBar');
+function setEditing(on) {
+  document.body.classList.toggle('editing', !!on && !!ADM.key);
+  if (!on) { pen.hidden = true; if (ED.el) edCancel(); }
+}
+function editingOn() { return document.body.classList.contains('editing'); }
+document.addEventListener('mouseover', function (e) {
+  if (!editingOn() || ED.el) return;
+  var el = e.target.closest && e.target.closest('[data-edit]');
+  if (!el || el.offsetParent === null) return;
+  var r = el.getBoundingClientRect();
+  pen.style.top = Math.max(4, r.top - 14) + 'px';
+  pen.style.left = Math.min(window.innerWidth - 38, r.right - 6) + 'px';
+  pen._el = el; pen.hidden = false;
+});
+window.addEventListener('scroll', function () { if (!ED.el) pen.hidden = true; else placeBar(); }, { passive: true });
+window.addEventListener('resize', function () { if (ED.el) placeBar(); });
+pen.addEventListener('click', function () { if (pen._el) edStart(pen._el); });
+function placeBar() {
+  var r = ED.el.getBoundingClientRect(), h = 46, w = edBar.offsetWidth || 300;
+  var top = r.bottom + 10; if (top + h > window.innerHeight - 8) top = Math.max(8, r.top - h - 10);
+  edBar.style.top = top + 'px';
+  edBar.style.left = Math.max(8, Math.min(window.innerWidth - w - 8, r.left)) + 'px';
+}
+function edStart(el) {
+  if (ED.el) edCancel();
+  ED.el = el; ED.before = el.innerHTML;
+  pen.hidden = true;
+  el.classList.add('editing');
+  el.setAttribute('contenteditable', 'true'); el.setAttribute('spellcheck', 'false');
+  el.focus();
+  var sel = window.getSelection(), rg = document.createRange(); rg.selectNodeContents(el); rg.collapse(false); sel.removeAllRanges(); sel.addRange(rg);
+  edBar.hidden = false; placeBar();
+}
+function edEnd() {
+  if (!ED.el) return;
+  ED.el.classList.remove('editing'); ED.el.removeAttribute('contenteditable'); ED.el.removeAttribute('spellcheck');
+  ED.el = null; edBar.hidden = true;
+}
+function edCancel() { if (!ED.el) return; ED.el.innerHTML = ED.before; edEnd(); }
+function edSave(reset) {
+  var el = ED.el; if (!el) return;
+  var name = el.getAttribute('data-edit'), def = cleanHtml(el.getAttribute('data-def'));
+  var val = reset ? '' : cleanHtml(el.innerHTML);
+  if (val === def) val = '';
+  var shown = val || el.getAttribute('data-def');
+  if (!reset && !cleanHtml(el.innerHTML).replace(/<br>/g, '').trim()) { window.toast('err', '빈 글은 저장할 수 없어요', '처음 문구로 돌리려면 [기본값]을 누르세요'); return; }
+  el.innerHTML = shown; edEnd();
+  var t = window.toast('wait', '저장하는 중…', name);
+  admApi('setContent', { name: name, value: val }).then(function () {
+    if (val) SITE_TEXT[name] = val; else delete SITE_TEXT[name];
+    applyContent(SITE_TEXT);
+    t.done('ok', val ? '문구를 고쳤어요' : '처음 문구로 돌렸어요', '모든 방문자에게 바로 보입니다');
+  }).catch(function (err) { t.close(); el.innerHTML = SITE_TEXT[name] ? cleanHtml(SITE_TEXT[name]) : el.getAttribute('data-def'); admErr(err); });
+}
+$('edSave').onclick = function () { edSave(false); };
+$('edCancel').onclick = edCancel;
+$('edReset').onclick = function () { edSave(true); };
+$('edB').addEventListener('mousedown', function (e) { e.preventDefault(); document.execCommand('bold'); });
+edBar.addEventListener('mousedown', function (e) { if (e.target.closest('button')) e.preventDefault(); }); /* 고치는 글자에서 커서가 빠지지 않게 */
+document.addEventListener('keydown', function (e) {
+  if (!ED.el) return;
+  if (e.key === 'Escape') { e.preventDefault(); edCancel(); }
+  else if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); edSave(false); }
+  else if ((e.key === 'b' || e.key === 'B') && (e.ctrlKey || e.metaKey)) { e.preventDefault(); document.execCommand('bold'); }
+}, true);
+/* 고치는 중에는 링크·버튼·탭이 눌리지 않게 */
+document.addEventListener('click', function (e) {
+  if (ED.el && ED.el.contains(e.target)) { e.preventDefault(); e.stopPropagation(); }
+}, true);
+/* 붙여넣기는 글자만 */
+document.addEventListener('paste', function (e) {
+  if (!ED.el || !ED.el.contains(e.target)) return;
+  e.preventDefault();
+  var text = (e.clipboardData || window.clipboardData).getData('text/plain');
+  document.execCommand('insertText', false, text.replace(/\s*\n\s*/g, ' '));
+});
+
+/* ---------- 콘텐츠 관리 ---------- */
+var ADMDATA = [];
+function catLabel(id) { var c = CATS.filter(function (x) { return x.id === id; })[0]; return c ? c.label : id; }
+var TYPE_LABEL = { video: '영상', pdf: 'PDF', link: '링크' };
+function afterChange() { return load().then(function () { tabsApi.counts(); render(); stats(); }); }
+function admRefresh() {
+  if (!ADM.key) return Promise.resolve();
+  $('admList').innerHTML = '<p class="adm-empty">불러오는 중…</p>';
+  return admApi('adminList').then(function (res) {
+    ADMDATA = res.items || []; renderAdm();
+    if (res.content) applyContent(res.content);
+    renderTexts();
+  }).catch(function (err) { $('admList').innerHTML = '<p class="adm-empty">목록을 불러오지 못했어요: ' + esc(err.message || err) + '</p>'; });
+}
+function renderAdm() {
+  var q = ($('admQ').value || '').trim().toLowerCase();
+  var rows = ADMDATA.filter(function (d) { return !q || (d.title + ' ' + d.tags + ' ' + d.id).toLowerCase().indexOf(q) >= 0; });
+  if (!rows.length) { $('admList').innerHTML = '<p class="adm-empty">' + (q ? '찾는 자료가 없어요.' : '아직 자료가 없어요. [＋ 새 자료]로 추가하세요.') + '</p>'; return; }
+  $('admList').innerHTML = rows.map(function (d) {
+    var i = ADMDATA.indexOf(d);
+    return '<div class="adm-row' + (d.visible ? '' : ' off') + '" data-id="' + esc(d.id) + '">' +
+      '<div class="adm-ord"><button type="button" data-act="up" aria-label="위로"' + (q || i === 0 ? ' disabled' : '') + '>▲</button><span>' + (i + 1) + '</span><button type="button" data-act="down" aria-label="아래로"' + (q || i === ADMDATA.length - 1 ? ' disabled' : '') + '>▼</button></div>' +
+      '<div class="adm-main"><b>' + (d.visible ? '' : '<span class="tag off">숨김</span>') + (d.featured ? '<span class="tag">추천</span>' : '') + (d.isNew ? '<span class="tag">NEW</span>' : '') + esc(d.title) + '</b>' +
+        '<small>' + esc(catLabel(d.category)) + ' · ' + esc(TYPE_LABEL[d.type] || d.type) + (d.duration ? ' · ' + esc(d.duration) : '') + ' · 조회 ' + (Number(d.views) || 0) + ' · ' + (d.url ? '링크 있음' : '<span class="warn">⚠ 링크 없음</span>') + ' · id ' + esc(d.id) + '</small></div>' +
+      '<div class="adm-act">' +
+        '<label class="adm-tg"><input type="checkbox" data-act="visible"' + (d.visible ? ' checked' : '') + '> 공개</label>' +
+        '<label class="adm-tg"><input type="checkbox" data-act="featured"' + (d.featured ? ' checked' : '') + '> 추천</label>' +
+        '<label class="adm-tg"><input type="checkbox" data-act="isNew"' + (d.isNew ? ' checked' : '') + '> NEW</label>' +
+        '<button class="mini" type="button" data-act="edit">✏️ 수정</button>' +
+        '<button class="mini danger" type="button" data-act="del" aria-label="삭제">🗑 삭제</button>' +
+      '</div></div>';
+  }).join('');
+}
+function renderTexts() {
+  var keys = Object.keys(SITE_TEXT).sort();
+  $('admTexts').innerHTML = keys.length ? keys.map(function (k) {
+    var tmp = document.createElement('div'); tmp.innerHTML = cleanHtml(SITE_TEXT[k]);
+    var el = document.querySelector('[data-edit="' + k + '"]'), was = document.createElement('div');
+    was.innerHTML = el ? el.getAttribute('data-def') : '';
+    return '<div class="adm-text"><code title="' + esc(k) + '">원래: ' + esc(was.textContent || k) + '</code><span>' + esc(tmp.textContent) + '</span><button class="mini" type="button" data-reset="' + esc(k) + '">기본값</button></div>';
+  }).join('') : '<p class="adm-empty">아직 고친 문구가 없어요. 화면의 연필(✏️)을 눌러 고쳐 보세요.</p>';
+}
+$('admTexts').addEventListener('click', function (e) {
+  var b = e.target.closest('[data-reset]'); if (!b) return;
+  var k = b.getAttribute('data-reset');
+  admApi('setContent', { name: k, value: '' }).then(function () {
+    delete SITE_TEXT[k]; applyContent(SITE_TEXT); window.toast('ok', '처음 문구로 돌렸어요', k);
+  }).catch(admErr);
+});
+$('admQ').addEventListener('input', renderAdm);
+$('admReload').onclick = function () { admRefresh(); };
+$('admList').addEventListener('change', function (e) {
+  var cb = e.target.closest('input[data-act]'); if (!cb) return;
+  var id = cb.closest('.adm-row').getAttribute('data-id'), f = cb.getAttribute('data-act'), v = cb.checked, patch = {};
+  patch[f] = v;
+  admApi('update', { id: id, item: patch }).then(function () {
+    ADMDATA.forEach(function (d) {
+      if (String(d.id) === id) d[f] = v;
+      else if (f === 'featured' && v) d.featured = false;
+    });
+    renderAdm(); afterChange();
+    window.toast('ok', '바꿨어요', (f === 'visible' ? (v ? '공개' : '숨김') : f === 'featured' ? (v ? '추천으로 지정' : '추천 해제') : (v ? 'NEW 표시' : 'NEW 해제')));
+  }).catch(function (err) { cb.checked = !v; admErr(err); });
+});
+$('admList').addEventListener('click', function (e) {
+  var b = e.target.closest('button[data-act]'); if (!b) return;
+  var id = b.closest('.adm-row').getAttribute('data-id'), act = b.getAttribute('data-act');
+  var i = ADMDATA.findIndex(function (d) { return String(d.id) === id; }), d = ADMDATA[i];
+  if (act === 'edit') return openItemDlg(d);
+  if (act === 'del') {
+    if (!window.confirm('‘' + d.title + '’ 자료를 시트에서 완전히 지울까요?\n되돌릴 수 없어요. 잠시 감추려면 [공개]를 끄세요.')) return;
+    return admApi('delete', { id: id }).then(function () {
+      ADMDATA.splice(i, 1); renderAdm(); afterChange(); window.toast('ok', '삭제했어요', d.title);
+    }).catch(admErr);
+  }
+  if (act === 'up' || act === 'down') {
+    var j = act === 'up' ? i - 1 : i + 1; if (j < 0 || j >= ADMDATA.length) return;
+    var tmp = ADMDATA[i]; ADMDATA[i] = ADMDATA[j]; ADMDATA[j] = tmp;
+    ADMDATA.forEach(function (x, k) { x.order = k + 1; });
+    renderAdm();
+    admApi('reorder', { ids: ADMDATA.map(function (x) { return x.id; }) }).then(afterChange).catch(function (err) { admErr(err); admRefresh(); });
+  }
+});
+
+/* 자료 추가·수정 창 */
+var itemDlg = $('itemDlg'), itemForm = $('itemForm'), editingId = null;
+itemForm.elements.category.innerHTML = CATS.filter(function (c) { return c.id !== 'all'; }).map(function (c) { return '<option value="' + c.id + '">' + esc(c.label) + '</option>'; }).join('');
+function openItemDlg(d) {
+  editingId = d ? String(d.id) : null;
+  $('itemTtl').textContent = d ? '✏️ 자료 수정' : '＋ 새 자료';
+  $('itemErr').textContent = '';
+  var f = itemForm.elements;
+  ['title', 'duration', 'url', 'description', 'tags', 'thumbnail', 'id'].forEach(function (k) { f[k].value = d ? (d[k] || '') : ''; });
+  f.category.value = d ? d.category : (state.cat !== 'all' ? state.cat : 'messenger');
+  f.type.value = d ? d.type : 'video';
+  f.visible.checked = d ? !!d.visible : true;
+  f.featured.checked = d ? !!d.featured : false;
+  f.isNew.checked = d ? !!d.isNew : true;
+  f.id.readOnly = !!d;
+  if (itemDlg.showModal) itemDlg.showModal(); f.title.focus();
+}
+$('admAdd').onclick = function () { openItemDlg(null); };
+$('itemCancel').onclick = function () { itemDlg.close(); };
+itemForm.addEventListener('submit', function (e) {
+  e.preventDefault();
+  var f = itemForm.elements, item = {};
+  ['title', 'category', 'type', 'duration', 'url', 'description', 'tags', 'thumbnail'].forEach(function (k) { item[k] = f[k].value.trim(); });
+  item.visible = f.visible.checked; item.featured = f.featured.checked; item.isNew = f.isNew.checked;
+  if (!item.title) { $('itemErr').textContent = '제목을 입력해 주세요.'; return; }
+  var btn = $('itemSave'); btn.disabled = true; $('itemErr').textContent = '저장하는 중…';
+  var req = editingId ? admApi('update', { id: editingId, item: item })
+                      : (f.id.value.trim() && (item.id = f.id.value.trim()), item.order = ADMDATA.length + 1, admApi('add', { item: item }));
+  req.then(function () {
+    itemDlg.close(); window.toast('ok', editingId ? '자료를 고쳤어요' : '자료를 추가했어요', item.title);
+    return admRefresh().then(afterChange);
+  }).catch(function (err) { $('itemErr').textContent = String(err.message || err); })
+    .then(function () { btn.disabled = false; });
+});
+
+/* 주소에 ?admin 이 있으면 로그인 창, 이미 로그인했으면 관리자 모드 유지 */
+if (ADM.key) admEnter();
+else if (/[?&]admin\b/.test(location.search)) setTimeout(admLogin, 300);
 
 /* ================= 시작 ================= */
 (function () {
   var h = location.hash.replace('#', '');
-  if (h === 'library' || h === 'faq') showPanel(h, { hash: false, scroll: false });
+  if (h === 'library' || h === 'faq' || (h === 'admin' && ADM.key)) showPanel(h, { hash: false, scroll: false });
 })();
 load().then(function () {
   tabsApi.counts(); render(); stats();

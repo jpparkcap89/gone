@@ -68,9 +68,13 @@ header{position:sticky;top:0;z-index:40;backdrop-filter:blur(14px);-webkit-backd
 .mark{width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,#3b63f6,#8e9cff);color:#fff;font-size:17px;font-weight:800;box-shadow:0 10px 25px rgba(59,99,246,.28)}
 .brand small{display:block;font-size:11.5px;font-weight:600;color:var(--muted);margin-top:-3px}
 .nav nav{margin-left:auto;display:flex;gap:22px}
-.nav nav a{font-size:15px;font-weight:650;color:var(--ink);text-decoration:none;position:relative;padding:4px 0}
-.nav nav a.on{color:var(--primary)}
-.nav nav a.on::after{content:"";position:absolute;left:0;right:55%;bottom:-2px;height:2px;border-radius:2px;background:var(--primary)}
+.nav nav{padding:4px;border-radius:999px;background:rgba(255,255,255,.72);box-shadow:0 0 0 1px var(--hairline);gap:2px}
+.nav nav a{font-size:15px;font-weight:650;color:var(--ink);text-decoration:none;position:relative;padding:8px 16px;border-radius:999px;white-space:nowrap;transition:background .2s,color .2s}
+.nav nav a:hover{color:var(--primary)}
+.nav nav a.on{background:var(--primary);color:#fff;box-shadow:0 8px 18px -10px rgba(59,99,246,.7)}
+.nav nav a:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+[data-panel][hidden]{display:none!important}
+[data-panel]{animation:pageIn .35s ease both}
 
 /* buttons */
 .btn{display:inline-flex;align-items:center;gap:8px;height:48px;padding:0 22px;border-radius:var(--r-pill);border:0;font:inherit;font-size:15px;font-weight:650;text-decoration:none;cursor:pointer;transition:transform .2s,background .2s,box-shadow .2s}
@@ -329,7 +333,9 @@ footer{text-align:center;color:var(--muted);font-size:13.5px;padding:40px 0 60px
   .wrap{padding:0 16px}
   h1{font-size:27px}
   .hero{padding:32px 0 20px}
-  .nav nav{display:none}
+  .nav{flex-wrap:wrap;height:auto;padding:10px 0;gap:10px}
+  .nav nav{order:3;width:100%;margin:0;justify-content:space-between}
+  .nav nav a{flex:1;text-align:center;padding:8px 6px;font-size:14px}
   .grid,.feats,.form{grid-template-columns:1fr}
   .sh h2{font-size:24px}
   .steps3{flex-direction:column}
@@ -348,10 +354,10 @@ footer{text-align:center;color:var(--muted);font-size:13.5px;padding:40px 0 60px
 <header>
   <div class="wrap nav">
     <a class="brand" href="#top"><span class="mark">G1</span><span>G-ONE 쉽게 배우기<small>교사 업무 효율화 지원단</small></span></a>
-    <nav aria-label="주 메뉴">
-      <a href="#start" class="on">처음이라면</a>
-      <a href="#library">자료실</a>
-      <a href="#faq">자주 묻는 질문</a>
+    <nav aria-label="주 메뉴" role="tablist">
+      <a href="#start" class="on" role="tab" data-tab="start" aria-selected="true">처음이라면</a>
+      <a href="#library" role="tab" data-tab="library" aria-selected="false">자료실</a>
+      <a href="#faq" role="tab" data-tab="faq" aria-selected="false">자주 묻는 질문</a>
     </nav>
     <span class="lamp" id="onAirLamp" aria-live="polite"><i aria-hidden="true"></i><span id="onAirText">STANDBY</span></span>
   </div>
@@ -359,13 +365,13 @@ footer{text-align:center;color:var(--muted);font-size:13.5px;padding:40px 0 60px
 
 <main id="top" class="wrap">
   <!-- HERO -->
-  <section class="hero">
+  <section class="hero" data-panel="start">
     <div>
       <span class="eyebrow">✨ 「교사 행정업무 Zero-ON」 교사 업무 효율화 지원단</span>
       <h1>G-ONE, 어렵지 않아요<br><span class="grad">2분 영상이면 바로 씁니다</span></h1>
       <p class="lead">GOE메신저에 익숙한 선생님도 <strong>부담 없이 옮겨 올 수 있도록</strong>, 일정과 브리티 메신저의 기본 기능을 짧은 영상과 PDF 안내서로 모았습니다.</p>
       <div class="cta">
-        <a class="btn p" href="#start">▶ 에센셜 영상부터 보기</a>
+        <a class="btn p" href="#library" id="ctaPick">▶ 에센셜 영상부터 보기</a>
         <a class="btn s" href="#library">📚 전체 자료 보기</a>
       </div>
       <div class="stats" aria-live="polite">
@@ -388,7 +394,7 @@ footer{text-align:center;color:var(--muted);font-size:13.5px;padding:40px 0 60px
   </section>
 
   <!-- START -->
-  <section class="blk" id="start">
+  <section class="blk" id="start" data-panel="start">
     <div class="sh"><span class="eb">START HERE</span><h2>🧭 처음이라면 이 순서로</h2><p>새로 배울 건 많지 않아요. <strong>늘 쓰던 기능이 자리만 옮겼을 뿐</strong>입니다.</p></div>
     <div class="feats">
       <article class="glass feat"><div class="em">🔐</div><h3>자동 로그인부터</h3><p>[환경설정] → [일반]에서 <strong>스위치 두 개만 켜면</strong> PC를 켤 때 바로 로그인돼요.</p></article>
@@ -398,7 +404,7 @@ footer{text-align:center;color:var(--muted);font-size:13.5px;padding:40px 0 60px
   </section>
 
   <!-- LIBRARY -->
-  <section class="blk" id="library">
+  <section class="blk" id="library" data-panel="library" hidden>
     <div class="sh"><span class="eb">LIBRARY</span><h2>📚 자료실</h2><p>보고 싶은 주제를 고르거나 검색해 보세요. 카드를 누르면 바로 재생됩니다.</p></div>
     <div class="demo" id="demo">지금은 <strong>미리보기용 예시 데이터</strong>입니다. index.html의 API_URL에 Apps Script 웹앱 주소를 넣으면 구글 시트 자료가 표시됩니다.</div>
     <div class="tool">
@@ -459,7 +465,7 @@ footer{text-align:center;color:var(--muted);font-size:13.5px;padding:40px 0 60px
   </section>
 
   <!-- FAQ -->
-  <section class="blk" id="faq">
+  <section class="blk" id="faq" data-panel="faq" hidden>
     <div class="sh"><span class="eb">FAQ</span><h2>💬 자주 묻는 질문</h2><p>선생님들이 가장 많이 물어보신 내용입니다.</p></div>
     <div class="faqgrid">
       <!-- Lucian UX/UI Prompt #044 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#044 -->
@@ -492,7 +498,7 @@ footer{text-align:center;color:var(--muted);font-size:13.5px;padding:40px 0 60px
   <!-- ADMIN (?admin 으로 열기) -->
   <section class="blk">
     <div class="glass admin" id="admin">
-      <div class="sh"><span class="eb">ADMIN</span><h2>🛠️ 자료 등록</h2><p>구글 시트에 바로 저장됩니다. 관리자 키는 Apps Script의 스크립트 속성 ADMIN_KEY와 같아야 해요.</p></div>
+      <div class="sh"><span class="eb">ADMIN</span><h2>🛠️ 자료 등록</h2><p>구글 시트에 바로 저장됩니다. 관리자 키는 구글 시트 ‘설정’ 시트의 adminPassword 값과 같아야 해요.</p></div>
       <form class="form" id="addForm">
         <label>제목<input name="title" required placeholder="예: 브리티 메신저 4편 쪽지"></label>
         <label>분류<select name="category"><option value="messenger">브리티 메신저</option><option value="calendar">G-ONE 일정</option><option value="guide">안내서</option><option value="etc">기타</option></select></label>
@@ -830,15 +836,16 @@ function placeholder(title, text) {
 function openItem(id, opts) {
   var it = byId(id); if (!it) return;
   opts = opts || {};
+  if (!opts.auto) { showPanel('library'); try { localStorage.setItem(LAST_KEY, String(it.id)); } catch (e) {} }
   var box = $('playerBox'), iframe = $('videoIframe'), src = embedUrl(it.url), token = ++tuneToken;
   clearTimeout(ltTimer);
   box.classList.remove('is-live', 'is-tuning', 'show-lt', 'quiet');
   box.classList.toggle('doc', it.type === 'pdf');
   playingId = it.id;
-  markSeen(it.id);
+  if (!opts.auto) markSeen(it.id);
   setOnAir(it);
   render();
-  history.replaceState(null, '', '#item=' + encodeURIComponent(it.id));
+  if (!opts.auto) history.replaceState(null, '', '#item=' + encodeURIComponent(it.id));
   if (!opts.noScroll) box.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
   if (!src) {
     iframe.src = 'about:blank';
@@ -851,13 +858,13 @@ function openItem(id, opts) {
   box.style.setProperty('--thumb', th ? 'url("' + th.replace(/["\\()]/g, '') + '")' : 'none');
   iframe.src = src + (/youtube/.test(src) ? '&autoplay=1' : '');
   iframe.title = it.title; iframe.removeAttribute('tabindex');
-  if (API_URL) api({ action: 'view', id: it.id }).then(function (r) { if (r.ok) { it.views = r.views; render(); stats(); } }).catch(function () {});
+  if (API_URL && !opts.auto) api({ action: 'view', id: it.id }).then(function (r) { if (r.ok) { it.views = r.views; render(); stats(); } }).catch(function () {});
   var goLive = function () {
     if (token !== tuneToken) return;
     box.classList.remove('is-tuning'); box.classList.add('is-live', 'show-lt');
     ltTimer = setTimeout(function () { box.classList.add('quiet'); box.classList.remove('show-lt'); }, 4200);
   };
-  if (reduceMotion) { goLive(); return; }
+  if (reduceMotion || opts.auto) { goLive(); return; }
   box.classList.add('is-tuning');
   var DUR = 1300, start = performance.now();
   (function frame(now) {
@@ -945,7 +952,7 @@ document.getElementById('q').addEventListener('input', function (e) { clearTimeo
     });
     it.querySelector('.u044-a a').addEventListener('click', function () {
       var q = this.getAttribute('data-q') || '';
-      var box = document.getElementById('q'); box.value = q; state.q = q; tabsApi.selectById('all');
+      var box = document.getElementById('q'); box.value = q; state.q = q; showPanel('library'); tabsApi.selectById('all');
     });
   });
 })();
@@ -970,23 +977,54 @@ document.getElementById('addForm').addEventListener('submit', function (e) {
 });
 
 /* ================= 시작 ================= */
+/* ================= 상단 탭 (처음이라면 · 자료실 · 자주 묻는 질문) ================= */
+var LAST_KEY = 'gone_last_v1';
+var panelNow = 'start';
+function showPanel(name, opts) {
+  opts = opts || {};
+  if (['start', 'library', 'faq'].indexOf(name) < 0) name = 'start';
+  var changed = name !== panelNow; panelNow = name;
+  Array.prototype.forEach.call(document.querySelectorAll('[data-panel]'), function (el) { el.hidden = el.getAttribute('data-panel') !== name; });
+  Array.prototype.forEach.call(document.querySelectorAll('.nav nav a'), function (a) {
+    var on = a.getAttribute('data-tab') === name;
+    a.classList.toggle('on', on); a.setAttribute('aria-selected', String(on));
+  });
+  if (name === 'library') tabsApi.counts(); /* 숨겨져 있던 알약 위치 다시 맞춤 */
+  if (opts.hash !== false && !(name === 'library' && playingId)) history.replaceState(null, '', name === 'start' ? location.pathname + location.search : '#' + name);
+  if (changed && opts.scroll !== false) window.scrollTo(0, 0);
+}
+document.querySelector('.nav nav').addEventListener('click', function (e) {
+  var a = e.target.closest('a[data-tab]'); if (!a) return;
+  e.preventDefault(); showPanel(a.getAttribute('data-tab'));
+});
+document.querySelector('.brand').addEventListener('click', function (e) { e.preventDefault(); showPanel('start'); });
+Array.prototype.forEach.call(document.querySelectorAll('.cta a[href="#library"]'), function (a) {
+  a.addEventListener('click', function (e) {
+    e.preventDefault();
+    if (a.id === 'ctaPick') { var f = DATA.filter(function (d) { return bool(d.featured); })[0] || byId('m0') || DATA[0]; if (f) { openItem(f.id); return; } }
+    showPanel('library');
+  });
+});
+function bool(v) { return v === true || String(v).toUpperCase() === 'TRUE'; }
+window.addEventListener('hashchange', function () {
+  var h = location.hash.replace('#', '');
+  if (h === 'start' || h === 'library' || h === 'faq') showPanel(h, { hash: false });
+});
+
+/* ================= 시작 ================= */
+(function () {
+  var h = location.hash.replace('#', '');
+  if (h === 'library' || h === 'faq') showPanel(h, { hash: false, scroll: false });
+})();
 load().then(function () {
   tabsApi.counts(); render(); stats();
   var m = /#item=([^&]+)/.exec(location.hash);
-  if (m) openItem(decodeURIComponent(m[1]), { noScroll: false });
+  if (m && byId(decodeURIComponent(m[1]))) { openItem(decodeURIComponent(m[1]), { noScroll: false }); return; }
+  /* 마지막으로 본 자료(이 브라우저) → 없으면 에센셜 편을 미리 선택 */
+  var last = null; try { last = localStorage.getItem(LAST_KEY); } catch (e) {}
+  var pick = (last && byId(last)) || byId('m0') || DATA.filter(function (d) { return bool(d.featured); })[0] || allItems()[0];
+  if (pick) openItem(pick.id, { auto: true, noScroll: true });
 });
-
-/* 메뉴 활성 표시 */
-(function () {
-  var links = Array.prototype.slice.call(document.querySelectorAll('.nav nav a'));
-  var io = new IntersectionObserver(function (es) {
-    es.forEach(function (en) {
-      if (!en.isIntersecting) return;
-      links.forEach(function (a) { a.classList.toggle('on', a.getAttribute('href') === '#' + en.target.id); });
-    });
-  }, { rootMargin: '-45% 0px -50% 0px' });
-  ['start', 'library', 'faq'].forEach(function (id) { io.observe(document.getElementById(id)); });
-})();
 </script>
 </body>
 </html>

@@ -248,10 +248,15 @@ section.blk{padding:52px 0 40px}
 .upnext{padding:18px;border-radius:var(--r-lg)}
 .upnext h3{margin:2px 0 10px;font-size:17px}
 .upnext .eb{font-size:12px;font-weight:800;letter-spacing:.12em;color:var(--primary)}
-.uplist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;max-height:430px;overflow:auto}
+.uplist{position:relative;list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;max-height:520px;overflow:auto}
 .uprow{display:flex;gap:10px;align-items:center;width:100%;padding:7px;border:0;border-radius:14px;background:rgba(255,255,255,.7);box-shadow:0 0 0 1px var(--hairline);text-align:left;cursor:pointer;font:inherit;color:var(--ink);transition:transform .3s var(--ux-spring),box-shadow .2s}
 .uprow:hover{transform:translateX(3px);box-shadow:0 0 0 1px var(--ux-line-2)}
 .uprow.on{box-shadow:0 0 0 2px var(--onair)}
+.uprow.seen{background:rgba(244,247,255,.75)}
+.uprow.seen .uptx b{color:var(--muted)}
+.uprow.seen .uptx small{color:var(--ux-mint);font-weight:700}
+.upno{flex:none;width:18px;text-align:center;font-size:12px;font-weight:800;color:var(--ux-ink-3);font-variant-numeric:tabular-nums}
+.upseen{margin-left:6px;font-size:12px;font-weight:700;color:var(--muted)}
 .uprow:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
 .upth{position:relative;width:76px;aspect-ratio:16/9;flex:none;border-radius:9px;overflow:hidden;background:var(--g);display:grid;place-items:center;font-size:20px}
 .upth img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
@@ -436,13 +441,14 @@ footer{text-align:center;color:var(--muted);font-size:13.5px;padding:40px 0 60px
           <button class="mini" type="button" id="shareBtn" disabled>🔗 링크</button>
           <a class="mini" id="openBtn" target="_blank" rel="noopener" style="display:none;align-items:center;text-decoration:none">새 창</a>
           <button class="mini" type="button" id="fullBtn" disabled>⛶ 크게</button>
-          <button class="mini go" type="button" id="nextBtn" disabled>다음 ▶</button>
+          <button class="mini" type="button" id="prevBtn" disabled aria-label="이전 영상">◀ 이전</button>
+          <button class="mini go" type="button" id="nextBtn" disabled aria-label="다음 영상">다음 ▶</button>
           <button class="mini" type="button" id="stopBtn" disabled>■ 끄기</button>
         </div>
       </section>
-      <aside class="glass upnext" aria-label="다음 볼 영상">
-        <span class="eb">UP NEXT</span>
-        <h3>📺 이어서 보기</h3>
+      <aside class="glass upnext" aria-label="전체 영상 목록">
+        <span class="eb">PLAYLIST</span>
+        <h3>📺 전체 목록 <small class="upseen" id="upSeen"></small></h3>
         <ul class="uplist" id="upList"></ul>
       </aside>
     </div>
@@ -733,7 +739,7 @@ function render() {
   var cat = CATS.filter(function (c) { return c.id === state.cat; })[0];
   document.getElementById('listTitle').textContent = (state.q ? '‘' + state.q + '’ 검색 결과' : (cat && cat.id !== 'all' ? cat.label : '전체 자료'));
   document.getElementById('listCount').textContent = items.length;
-  renderUpNext(items);
+  renderUpNext();
   if (!items.length) {
     grid.innerHTML = '<div class="empty"><div class="em">🔍</div><p><strong>찾는 자료가 없어요.</strong><br>다른 낱말로 검색하거나 ‘전체’를 눌러 보세요.</p><button class="mini" type="button" id="resetQ">검색 지우기</button></div>';
     document.getElementById('resetQ').onclick = function () { document.getElementById('q').value = ''; state.q = ''; tabsApi.selectById('all'); };
@@ -754,17 +760,33 @@ function render() {
       '<button class="mini go" type="button" data-open="' + esc(it.id) + '">' + (isPdf ? '보기' : '▶ 재생') + '</button></div></div></article>';
   }).join('');
 }
-function renderUpNext(items) {
-  var ul = document.getElementById('upList');
+/* 본 자료 기억 (이 브라우저에만 저장) */
+var SEEN_KEY = 'gone_seen_v1';
+function seenSet() { try { return JSON.parse(localStorage.getItem(SEEN_KEY) || '[]'); } catch (e) { return []; } }
+function markSeen(id) {
+  try { var s = seenSet(); id = String(id); if (s.indexOf(id) < 0) { s.push(id); localStorage.setItem(SEEN_KEY, JSON.stringify(s)); } } catch (e) {}
+}
+function allItems() {
+  return DATA.slice().sort(function (a, b) { return (a.order || 99) - (b.order || 99); });
+}
+function renderUpNext() {
+  var ul = document.getElementById('upList'), items = allItems(), seen = seenSet();
   if (!items.length) { ul.innerHTML = '<li style="color:var(--muted);font-size:14px;padding:8px">목록이 비어 있어요.</li>'; return; }
-  var i = items.findIndex(function (d) { return String(d.id) === String(playingId); });
-  var order = i < 0 ? items : items.slice(i + 1).concat(items.slice(0, i + 1));
-  ul.innerHTML = order.map(function (it) {
-    var th = thumbUrl(it), on = String(it.id) === String(playingId);
-    return '<li><button class="uprow' + (on ? ' on' : '') + '" type="button" data-open="' + esc(it.id) + '">' +
+  var cnt = items.filter(function (d) { return seen.indexOf(String(d.id)) >= 0; }).length;
+  var sc = document.getElementById('upSeen'); if (sc) sc.textContent = '본 자료 ' + cnt + ' / ' + items.length;
+  ul.innerHTML = items.map(function (it, n) {
+    var th = thumbUrl(it), on = String(it.id) === String(playingId), was = seen.indexOf(String(it.id)) >= 0;
+    var sub = on ? '지금 보는 중' : (was ? '✓ 봤어요' + (it.duration ? ' · ' + esc(it.duration) : '') : esc(it.duration || ''));
+    return '<li><button class="uprow' + (on ? ' on' : '') + (was && !on ? ' seen' : '') + '" type="button" data-open="' + esc(it.id) + '"' + (on ? ' aria-current="true"' : '') + '>' +
+      '<span class="upno">' + (n + 1) + '</span>' +
       '<span class="upth" style="--g:' + (GRAD[it.category] || GRAD.etc) + '">' + (th ? '<img src="' + esc(th) + '" alt="" loading="lazy" onerror="this.remove()">' : '') + (it.type === 'pdf' ? '📘' : (EMOJI[it.category] || '🎬')) + '</span>' +
-      '<span class="uptx"><b>' + esc(it.title) + '</b><small>' + (on ? '지금 보는 중' : esc(it.duration || '')) + '</small></span></button></li>';
+      '<span class="uptx"><b>' + esc(it.title) + '</b><small>' + sub + '</small></span></button></li>';
   }).join('');
+  var cur = ul.querySelector('.uprow.on');
+  if (cur) { /* 지금 보는 자료가 목록 밖에 있을 때만 가운데로 맞춤 */
+    var li = cur.parentNode, top = li.offsetTop, bot = top + li.offsetHeight;
+    if (top < ul.scrollTop || bot > ul.scrollTop + ul.clientHeight) ul.scrollTop = Math.max(0, top - (ul.clientHeight - li.offsetHeight) / 2);
+  }
 }
 function stats() {
   var v = DATA.filter(function (d) { return d.type === 'video'; }).length;
@@ -794,7 +816,7 @@ function setOnAir(it) {
   $('onAirText').textContent = on ? 'ON AIR' : 'STANDBY';
   $('nowLabel').textContent = on ? 'NOW PLAYING' : 'STANDBY';
   $('nowTitle').textContent = on ? it.title : '볼 자료를 골라 주세요';
-  ['shareBtn', 'fullBtn', 'nextBtn', 'stopBtn'].forEach(function (k) { $(k).disabled = !on; });
+  ['shareBtn', 'fullBtn', 'prevBtn', 'nextBtn', 'stopBtn'].forEach(function (k) { $(k).disabled = !on; });
   var o = $('openBtn'); o.style.display = on && it.url ? 'inline-flex' : 'none'; o.href = on && it.url ? it.url : '#';
 }
 function placeholder(title, text) {
@@ -810,6 +832,7 @@ function openItem(id, opts) {
   box.classList.remove('is-live', 'is-tuning', 'show-lt', 'quiet');
   box.classList.toggle('doc', it.type === 'pdf');
   playingId = it.id;
+  markSeen(it.id);
   setOnAir(it);
   render();
   history.replaceState(null, '', '#item=' + encodeURIComponent(it.id));
@@ -851,13 +874,20 @@ function stopItem() {
   history.replaceState(null, '', location.pathname + location.search);
   if (document.fullscreenElement) document.exitFullscreen().catch(function () {});
 }
+function prevItem() {
+  var items = allItems(); if (!items.length) return;
+  var i = items.findIndex(function (d) { return String(d.id) === String(playingId); });
+  if (i < 0) i = 0;
+  openItem(items[(i - 1 + items.length) % items.length].id);
+}
 function nextItem() {
-  var items = current(); if (!items.length) return;
+  var items = allItems(); if (!items.length) return;
   var i = items.findIndex(function (d) { return String(d.id) === String(playingId); });
   openItem(items[(i + 1) % items.length].id);
 }
 $('stopBtn').onclick = stopItem;
 $('nextBtn').onclick = nextItem;
+$('prevBtn').onclick = prevItem;
 $('shareBtn').onclick = function () { var it = byId(playingId); if (it) copy(linkFor(it), it.title); };
 $('fullBtn').onclick = function () {
   var box = $('playerBox'), req = box.requestFullscreen || box.webkitRequestFullscreen;

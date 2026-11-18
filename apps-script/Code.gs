@@ -1,22 +1,21 @@
 /**
- * G-ONE 쉽게 배우기 · 자료실 백엔드 (Google Apps Script + Google Sheets)
+ * G-ONE 쉽게 배우기 · 자료실 백엔드 (GONE 스프레드시트에 연결된 Apps Script)
  *
  * 시트 구성
  *  - resources : 자료 목록 (아래 HEADERS 순서)
- *  - log       : 조회·등록 기록 (선택)
+ *  - content   : 사이트 문구 (key · value · updatedAt) — 관리자가 연필로 고친 글만 저장됩니다
+ *  - 설정       : A열 키 / B열 값. adminPassword 행의 값 = 관리자 비밀번호
+ *  - log       : 관리 기록
  *
- * 스크립트 속성 (프로젝트 설정 → 스크립트 속성)
- *  - ADMIN_KEY : 관리자 등록용 비밀 키 (사이트 ?admin 화면에서 입력)
- *
- * 처음 한 번: 편집기에서 setup() 실행 → 시트와 예시 데이터가 만들어집니다.
- * 배포: 배포 → 새 배포 → 웹 앱 / 실행: 나 / 액세스: 모든 사용자 → /exec 주소를 index.html API_URL에.
+ * 배포: 배포 → 배포 관리 → (연필) → 버전: 새 버전 → 배포  (웹 앱 주소는 그대로 유지)
  */
 
-// 자료실 DB 스프레드시트 ID (독립형 스크립트로 연결)
-var SHEET_ID = '1_05KaUU1pN2BeV9HtZtWt2_xesPO3alZBE_fGorC0Po';
 var SHEET = 'resources';
+var CONTENT = 'content';
 var HEADERS = ['id', 'order', 'category', 'type', 'title', 'description', 'url', 'thumbnail',
                'duration', 'tags', 'featured', 'isNew', 'visible', 'views', 'createdAt', 'updatedAt'];
+var EDITABLE = ['order', 'category', 'type', 'title', 'description', 'url', 'thumbnail',
+                'duration', 'tags', 'featured', 'isNew', 'visible'];
 
 /* ---------- 웹 요청 ---------- */
 function doGet(e) {
@@ -25,7 +24,7 @@ function doGet(e) {
     switch (p.action) {
       case 'view': return json(addView_(p.id));
       case 'list':
-      default:     return json({ ok: true, items: list_(), updated: new Date().toISOString() });
+      default:     return json({ ok: true, items: list_(), content: content_(), updated: new Date().toISOString() });
     }
   } catch (err) {
     return json({ ok: false, error: String(err.message || err) });
@@ -38,10 +37,16 @@ function doPost(e) {
     var body = JSON.parse((e && e.postData && e.postData.contents) || '{}');
     checkKey_(body.key);
     switch (body.action) {
-      case 'add':    return json(add_(body.item || {}));
-      case 'update': return json(update_(body.id, body.item || {}));
-      case 'hide':   return json(update_(body.id, { visible: false }));
-      default:       return json({ ok: false, error: '알 수 없는 요청입니다.' });
+      case 'login':      return json({ ok: true });
+      case 'adminList':  return json({ ok: true, items: adminList_(), content: content_() });
+      case 'add':        return json(add_(body.item || {}));
+      case 'update':     return json(update_(body.id, body.item || {}));
+      case 'hide':       return json(update_(body.id, { visible: false }));
+      case 'show':       return json(update_(body.id, { visible: true }));
+      case 'delete':     return json(remove_(body.id));
+      case 'reorder':    return json(reorder_(body.ids || []));
+      case 'setContent': return json(setContent_(body.name, body.value));
+      default:           return json({ ok: false, error: '알 수 없는 요청입니다.' });
     }
   } catch (err) {
     return json({ ok: false, error: String(err.message || err) });
@@ -53,25 +58,51 @@ function list_() {
   var cache = CacheService.getScriptCache();
   var hit = cache.get('list');
   if (hit) return JSON.parse(hit);
-  var rows = readAll_().filter(function (r) { return r.visible !== false && String(r.visible).toUpperCase() !== 'FALSE'; });
-  rows.sort(function (a, b) { return (Number(a.order) || 999) - (Number(b.order) || 999); });
-  var items = rows.map(function (r) {
-    return {
-      id: String(r.id), order: Number(r.order) || 999, category: r.category || 'etc', type: r.type || 'video',
-      title: r.title, description: r.description, url: r.url, thumbnail: r.thumbnail, duration: String(r.duration || ''),
-      tags: r.tags, featured: bool_(r.featured), isNew: bool_(r.isNew), views: Number(r.views) || 0
-    };
-  });
-  cache.put('list', JSON.stringify(items), 60); // 1분 캐시 (조회수는 view 요청 때 즉시 반영)
+  var items = readAll_()
+    .filter(function (r) { return String(r.visible).toUpperCase() !== 'FALSE'; })
+    .map(pub_)
+    .sort(byOrder_);
+  cache.put('list', JSON.stringify(items), 60); // 1분 캐시 (바꾸면 즉시 지움)
   return items;
 }
+function adminList_() {
+  return readAll_().map(function (r) {
+    var o = pub_(r);
+    o.visible = String(r.visible).toUpperCase() !== 'FALSE';
+    o.createdAt = r.createdAt; o.updatedAt = r.updatedAt;
+    return o;
+  }).sort(byOrder_);
+}
+function pub_(r) {
+  return {
+    id: String(r.id), order: Number(r.order) || 999, category: r.category || 'etc', type: r.type || 'video',
+    title: r.title, description: r.description, url: r.url, thumbnail: r.thumbnail, duration: String(r.duration || ''),
+    tags: r.tags, featured: bool_(r.featured), isNew: bool_(r.isNew), views: Number(r.views) || 0
+  };
+}
+function byOrder_(a, b) { return (a.order || 999) - (b.order || 999); }
 
 function readAll_() {
-  var sh = sheet_(), v = sh.getDataRange().getValues();
+  var sh = sheet_(), v = sh.getDataRange().getDisplayValues(); // 1:30 같은 값이 시간으로 바뀌지 않게 보이는 그대로 읽음
   var head = v.shift();
   return v.filter(function (row) { return row[0] !== ''; }).map(function (row) {
     var o = {}; head.forEach(function (h, i) { o[h] = row[i]; }); return o;
   });
+}
+
+function content_() {
+  var cache = CacheService.getScriptCache();
+  var hit = cache.get('content');
+  if (hit) return JSON.parse(hit);
+  var sh = contentSheet_(), out = {};
+  if (sh.getLastRow() > 1) {
+    sh.getRange(2, 1, sh.getLastRow() - 1, 2).getValues().forEach(function (r) {
+      if (String(r[0]).trim()) out[String(r[0]).trim()] = String(r[1]);
+    });
+  }
+  var s = JSON.stringify(out);
+  if (s.length < 90000) cache.put('content', s, 300);
+  return out;
 }
 
 /* ---------- 쓰기 ---------- */
@@ -84,7 +115,7 @@ function addView_(id) {
     var col = HEADERS.indexOf('views') + 1;
     var n = (Number(sh.getRange(row, col).getValue()) || 0) + 1;
     sh.getRange(row, col).setValue(n);
-    CacheService.getScriptCache().remove('list');
+    clear_();
     return { ok: true, views: n };
   } finally { lock.releaseLock(); }
 }
@@ -94,15 +125,20 @@ function add_(item) {
   var lock = LockService.getScriptLock(); lock.waitLock(5000);
   try {
     var sh = sheet_(), now = new Date();
-    var id = item.id || Utilities.getUuid().slice(0, 8);
-    var order = item.order || sh.getLastRow(); // 맨 뒤에
+    var id = String(item.id || Utilities.getUuid().slice(0, 8)).trim();
+    if (findRow_(sh, id)) throw new Error('같은 id가 이미 있습니다: ' + id);
     var rec = {
-      id: id, order: order, category: item.category || 'etc', type: item.type || 'video', title: item.title,
-      description: item.description || '', url: item.url || '', thumbnail: item.thumbnail || '', duration: item.duration || '',
-      tags: item.tags || '', featured: false, isNew: true, visible: true, views: 0, createdAt: now, updatedAt: now
+      id: id, order: Number(item.order) || sh.getLastRow(), category: item.category || 'etc', type: item.type || 'video',
+      title: item.title, description: item.description || '', url: item.url || '', thumbnail: item.thumbnail || '',
+      duration: item.duration || '', tags: item.tags || '', featured: bool_(item.featured),
+      isNew: item.isNew === undefined ? true : bool_(item.isNew), visible: item.visible === undefined ? true : bool_(item.visible),
+      views: 0, createdAt: now, updatedAt: now
     };
-    sh.appendRow(HEADERS.map(function (h) { return rec[h]; }));
-    CacheService.getScriptCache().remove('list');
+    var row = sh.getLastRow() + 1;
+    sh.getRange(row, HEADERS.indexOf('duration') + 1).setNumberFormat('@');
+    sh.getRange(row, 1, 1, HEADERS.length).setValues([HEADERS.map(function (h) { return rec[h]; })]);
+    if (rec.featured) onlyFeatured_(sh, id);
+    clear_();
     log_('add', id, item.title);
     return { ok: true, id: id };
   } finally { lock.releaseLock(); }
@@ -114,34 +150,117 @@ function update_(id, patch) {
     var sh = sheet_(), row = findRow_(sh, id);
     if (!row) throw new Error('자료를 찾지 못했습니다.');
     Object.keys(patch).forEach(function (k) {
-      var c = HEADERS.indexOf(k);
-      if (c > 0 && k !== 'views' && k !== 'createdAt') sh.getRange(row, c + 1).setValue(patch[k]);
+      if (EDITABLE.indexOf(k) < 0) return;
+      var c = HEADERS.indexOf(k) + 1, v = patch[k];
+      if (k === 'featured' || k === 'isNew' || k === 'visible') v = bool_(v);
+      if (k === 'order') v = Number(v) || 999;
+      if (k === 'duration') sh.getRange(row, c).setNumberFormat('@');
+      sh.getRange(row, c).setValue(v);
     });
+    if (patch.featured !== undefined && bool_(patch.featured)) onlyFeatured_(sh, id);
     sh.getRange(row, HEADERS.indexOf('updatedAt') + 1).setValue(new Date());
-    CacheService.getScriptCache().remove('list');
-    log_('update', id, JSON.stringify(patch));
+    clear_();
+    log_('update', id, JSON.stringify(patch).slice(0, 500));
+    return { ok: true };
+  } finally { lock.releaseLock(); }
+}
+
+function remove_(id) {
+  var lock = LockService.getScriptLock(); lock.waitLock(5000);
+  try {
+    var sh = sheet_(), row = findRow_(sh, id);
+    if (!row) throw new Error('자료를 찾지 못했습니다.');
+    var title = sh.getRange(row, HEADERS.indexOf('title') + 1).getValue();
+    sh.deleteRow(row);
+    clear_();
+    log_('delete', id, title);
+    return { ok: true };
+  } finally { lock.releaseLock(); }
+}
+
+function reorder_(ids) {
+  var lock = LockService.getScriptLock(); lock.waitLock(5000);
+  try {
+    var sh = sheet_(), n = sh.getLastRow() - 1;
+    if (n < 1) return { ok: true };
+    var idv = sh.getRange(2, 1, n, 1).getValues();
+    var col = HEADERS.indexOf('order') + 1;
+    var ord = sh.getRange(2, col, n, 1).getValues();
+    ids.forEach(function (id, i) {
+      for (var r = 0; r < n; r++) if (String(idv[r][0]) === String(id)) ord[r][0] = i + 1;
+    });
+    sh.getRange(2, col, n, 1).setValues(ord);
+    clear_();
+    log_('reorder', '', ids.join(','));
+    return { ok: true };
+  } finally { lock.releaseLock(); }
+}
+
+function setContent_(name, value) {
+  name = String(name || '').trim();
+  if (!/^[\w.\-]{1,60}$/.test(name)) throw new Error('문구 이름이 올바르지 않습니다.');
+  value = String(value == null ? '' : value);
+  if (value.length > 5000) throw new Error('글이 너무 깁니다.');
+  var lock = LockService.getScriptLock(); lock.waitLock(5000);
+  try {
+    var sh = contentSheet_(), row = 0;
+    if (sh.getLastRow() > 1) {
+      var keys = sh.getRange(2, 1, sh.getLastRow() - 1, 1).getValues();
+      for (var i = 0; i < keys.length; i++) if (String(keys[i][0]).trim() === name) { row = i + 2; break; }
+    }
+    if (value.trim() === '') { if (row) sh.deleteRow(row); }          // 비우면 기본 문구로 되돌림
+    else if (row) sh.getRange(row, 2, 1, 2).setValues([[value, new Date()]]);
+    else sh.appendRow([name, value, new Date()]);
+    CacheService.getScriptCache().remove('content');
+    log_('content', name, value.slice(0, 200));
     return { ok: true };
   } finally { lock.releaseLock(); }
 }
 
 /* ---------- 도우미 ---------- */
 function sheet_() {
-  var ss = SpreadsheetApp.openById(SHEET_ID);
+  var ss = SpreadsheetApp.getActive();
   return ss.getSheetByName(SHEET) || ss.insertSheet(SHEET);
 }
+function contentSheet_() {
+  var ss = SpreadsheetApp.getActive(), sh = ss.getSheetByName(CONTENT);
+  if (!sh) {
+    sh = ss.insertSheet(CONTENT);
+    sh.appendRow(['key', 'value', 'updatedAt']);
+    sh.getRange(1, 1, 1, 3).setFontWeight('bold').setBackground('#e8eefc');
+    sh.setFrozenRows(1);
+    sh.setColumnWidth(2, 480);
+  }
+  return sh;
+}
 function findRow_(sh, id) {
-  var ids = sh.getRange(2, 1, Math.max(sh.getLastRow() - 1, 1), 1).getValues();
+  if (sh.getLastRow() < 2) return 0;
+  var ids = sh.getRange(2, 1, sh.getLastRow() - 1, 1).getValues();
   for (var i = 0; i < ids.length; i++) if (String(ids[i][0]) === String(id)) return i + 2;
   return 0;
 }
+function onlyFeatured_(sh, id) {  // 추천(TODAY'S PICK)은 하나만
+  var n = sh.getLastRow() - 1; if (n < 1) return;
+  var idv = sh.getRange(2, 1, n, 1).getValues(), col = HEADERS.indexOf('featured') + 1;
+  sh.getRange(2, col, n, 1).setValues(idv.map(function (r) { return [String(r[0]) === String(id)]; }));
+}
+function clear_() { CacheService.getScriptCache().remove('list'); }
 function checkKey_(key) {
-  var real = PropertiesService.getScriptProperties().getProperty('ADMIN_KEY');
-  if (!real) throw new Error('스크립트 속성 ADMIN_KEY가 설정되지 않았습니다.');
-  if (key !== real) throw new Error('관리자 키가 맞지 않습니다.');
+  var real = getSetting_('adminPassword');
+  if (!real) throw new Error("'설정' 시트에 adminPassword 값이 없습니다.");
+  if (String(key || '').trim() !== real) { Utilities.sleep(800); throw new Error('관리자 비밀번호가 맞지 않습니다.'); }
+}
+// '설정' 시트(A열 키, B열 값)에서 값을 읽습니다
+function getSetting_(name) {
+  var sh = SpreadsheetApp.getActive().getSheetByName('설정');
+  if (!sh || sh.getLastRow() < 1) return '';
+  var v = sh.getRange(1, 1, sh.getLastRow(), 2).getDisplayValues();
+  for (var i = 0; i < v.length; i++) if (String(v[i][0]).trim() === name) return String(v[i][1]).trim();
+  return '';
 }
 function bool_(v) { return v === true || String(v).toUpperCase() === 'TRUE'; }
 function log_(what, id, note) {
-  var ss = SpreadsheetApp.openById(SHEET_ID);
+  var ss = SpreadsheetApp.getActive();
   var sh = ss.getSheetByName('log') || ss.insertSheet('log');
   if (sh.getLastRow() === 0) sh.appendRow(['time', 'action', 'id', 'note']);
   sh.appendRow([new Date(), what, id, note]);
@@ -150,7 +269,7 @@ function json(o) {
   return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON);
 }
 
-/* ---------- 처음 한 번 실행: 시트 만들기 + 예시 자료 ---------- */
+/* ---------- 처음 한 번: 시트 머리글 만들기 (자료는 사이트 관리 화면에서 등록) ---------- */
 function setup() {
   var sh = sheet_();
   if (sh.getLastRow() === 0) {
@@ -158,25 +277,6 @@ function setup() {
     sh.getRange(1, 1, 1, HEADERS.length).setFontWeight('bold').setBackground('#e8eefc');
     sh.setFrozenRows(1);
   }
-  if (sh.getLastRow() > 1) return; // 이미 자료가 있으면 건너뜀
-  var now = new Date();
-  var seed = [
-    ['m0', 1, 'messenger', 'video', '브리티 메신저 에센셜 편', 'GOE메신저 쓰던 선생님을 위한 빠른 전환: 자동 로그인, 선생님 찾기, 쪽지, 대화, 알림까지 한 번에.', '1:30', '에센셜,자동 로그인,쪽지,전환', true, true],
-    ['m1', 2, 'messenger', 'video', '브리티 메신저 1편 · 시작하기와 자동 로그인', '설치, 로그인, 자동 로그인 3단계, 화면 구성을 알아봅니다.', '1:35', '자동 로그인,설치,로그인', false, false],
-    ['m2', 3, 'messenger', 'video', '브리티 메신저 2편 · 연락처·조직도로 선생님 찾기', '내 상태 바꾸기, 조직도, 검색, 여러 명에게 한 번에 보내기.', '1:19', '조직도,연락처,검색', false, false],
-    ['m3', 4, 'messenger', 'video', '브리티 메신저 3편 · 대화하기', '1:1과 그룹 대화, 메시지 예약 발신, 이모티콘, 공지방.', '1:32', '대화,예약 발신,공지방', false, false],
-    ['m4', 5, 'messenger', 'video', '브리티 메신저 4편 · 쪽지 보내고 확인하기', '쪽지 쓰기, 받는 사람 고르기, 읽음 확인, 발신취소, 답장·전달.', '1:31', '쪽지,수신확인,회수,발신취소', false, false],
-    ['m5', 6, 'messenger', 'video', '브리티 메신저 5편 · 워크스페이스·채널', '워크스페이스와 채널 만들기, 멤버 초대, 공지·파일·링크 탭.', '1:31', '워크스페이스,채널,협업', false, false],
-    ['m6', 7, 'messenger', 'video', '브리티 메신저 6편 · 환경설정', '알림, 키워드 알림, 메시지 전송 키, 파일 저장 위치, 글꼴, 스킨.', '1:31', '환경설정,알림,줄바꿈', false, false],
-    ['c1', 8, 'calendar', 'video', 'G-ONE 일정 관리 1부', '캘린더 만들기, 일정 등록(기관 공개·참석자), 상세 등록으로 여러 명 공유.', '2:57', '일정,캘린더,기관 공개', false, false],
-    ['c2', 9, 'calendar', 'video', 'G-ONE 일정 관리 2부', 'Year 보기, 할 일, 캘린더 공유·구독, ICS 내보내기·가져오기.', '2:05', '일정,구독,ICS,할 일', false, false],
-    ['c3', 10, 'calendar', 'video', '브리티 일정 관리 TIP', '날짜 클릭 간편 등록부터 상세 등록, 수정·삭제, 할 일까지.', '3:05', '일정,할 일,TIP', false, false],
-    ['g1', 11, 'guide', 'pdf', '브리티 메신저 첫걸음 (PDF)', 'GOE메신저 쓰던 선생님을 위한 기본 사용법 7쪽 안내서. 기능 비교표와 3주 전환 로드맵 포함.', '7쪽', 'PDF,안내서,전환,비교표', false, true]
-  ];
-  seed.forEach(function (s) {
-    var rec = { id: s[0], order: s[1], category: s[2], type: s[3], title: s[4], description: s[5], url: '', thumbnail: '',
-                duration: s[6], tags: s[7], featured: s[8], isNew: s[9], visible: true, views: 0, createdAt: now, updatedAt: now };
-    sh.appendRow(HEADERS.map(function (h) { return rec[h]; }));
-  });
-  sh.autoResizeColumns(1, HEADERS.length);
+  sh.getRange(2, HEADERS.indexOf('duration') + 1, sh.getMaxRows() - 1, 1).setNumberFormat('@');
+  contentSheet_();
 }
